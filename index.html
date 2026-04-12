@@ -33,7 +33,7 @@
         <div id="area_provas">
             <div id="questoes_container">
                 <!-- AS PERGUNTAS VÃO BROTAR AQUI EMBAIXO -->
-            </div>O que significa a sigla CGE no contexto do Exército Brasileiro?
+            </div>
             <button class="btn" onclick="enviarParaDiscord()">ENVIAR RESPOSTAS AO QG</button>
         </div>
     </div>
@@ -51,7 +51,7 @@
         const container = document.getElementById('questoes_container');
         if (!curso) return;
         
-        container.innerHTML = ""; // Limpa o aviso de espera
+        container.innerHTML = "";
         banco[curso].forEach((pergunta, i) => {
             container.innerHTML += `
                 <div class="questao">
@@ -66,32 +66,7 @@
         const nome = document.getElementById('nome_discord').value;
         let webhook = "";
         
-        if (curso === "CLD") webhook = https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv
-        else if (curso === "IFB") webhook = https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy
-        else if (curso === "CGE") webhook = https://discord.com/api/webhooks/1492933590961619167/-TMRlkEmAE63JBQVk2z6qKts5eRpHoIZR89ufMhhJ9ZMlx8sh36Mw0lppYpRX4AZHtcz
-
-        if(!nome || !curso) return alert("⚠️ Digite seu nome e escolha o curso!");
-
-        let resps = "";
-        for(let i=0; i<10; i++) {
-            const val = document.getElementById('res_'+i).value || "Não respondeu";
-            resps += `**Q${i+1}:** ${val}\n`;
-        }
-
-        const request = new XMLHttpRequest();
-        request.open("POST", webhook);
-        request.setRequestHeader('Content-type', 'application/json');
-        request.send(JSON.stringify({
-            embeds: [{
-                title: `🚩 NOVA AVALIAÇÃO: ${curso}`,
-                color: 16711680,
-                description: `**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`
-            }]
-        }));
-
-        alert("Enviado com sucesso! Espere os administradores ou oficiais avaliar sua prova. Boa sorte!!");
-        window.location.reload();
-    }
-    </script>
-</body>
-</html>
+        if (curso === "CLD") {
+            webhook = "https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv";
+        } else if (curso === "IFB") {
+            webhook = "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8X
