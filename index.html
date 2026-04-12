@@ -3,94 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSTITUTO MENTE GENIAL | SISTEMA DE PROVAS</title>
+    <title>INSTITUTO MENTE GENIAL | PROVAS</title>
     <style>
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
-        body { background-color: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; }
-        
-        header { padding: 40px; border-bottom: 3px solid var(--vermelho); background: #000; }
-        .logo { width: 120px; filter: drop-shadow(0 0 10px var(--vermelho)); }
-        
-        .container { padding: 20px; max-width: 800px; margin: auto; }
-        .aviso-discord { background: #5865F2; color: white; padding: 15px; border-radius: 8px; margin-bottom: 30px; font-weight: bold; }
-        
-        .curso-card { background: var(--cinza); border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-        .btn-prova { background: var(--vermelho); color: white; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; display: inline-block; cursor: pointer; border: none; }
-        
-        /* Sistema de Questões (Escondido inicialmente) */
-        #sistema-questoes { display: none; background: #fff; color: #000; padding: 20px; border-radius: 10px; text-align: left; margin-top: 20px; }
+        body { background-color: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .card { background: var(--cinza); border: 1px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: auto; }
+        h1 { color: var(--vermelho); text-transform: uppercase; }
+        .questao { text-align: left; margin: 20px 0; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        input, textarea, select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 5px; border: none; box-sizing: border-box; }
+        .btn { background: var(--vermelho); color: white; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1em; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
-    <p>SISTEMA DE AVALIAÇÃO TÁTICA</p>
-</header>
+    <div class="card">
+        <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
+        <p>IDENTIFIQUE-SE COM SEU NOME DO DISCORD:</p>
+        <input type="text" id="nome_discord" placeholder="Ex: Adryel#1234" required>
 
-<div class="container">
-    <div class="aviso-discord">
-        ⚠️ ATENÇÃO: PARA QUE SUA NOTA SEJA VÁLIDA, VOCÊ DEVE ESTAR CONECTADO AO DISCORD DO BGEex.
-    </div>
+        <div id="form-prova">
+            <!-- 5 FÁCEIS -->
+            <div class="questao"><p><b>1. [FÁCIL] Qual a resposta correta para um superior?</b></p>
+                <select id="q1"><option value="Errado">Eae, beleza?</option><option value="Correto">Sim, Senhor!</option></select></div>
+            <div class="questao"><p><b>2. [FÁCIL] O que significa a sigla EB?</b></p>
+                <input type="text" id="q2" placeholder="Sua resposta..."></div>
+            <div class="questao"><p><b>3. [FÁCIL] Onde são postados os avisos oficiais?</b></p>
+                <input type="text" id="q3" placeholder="Ex: Canal de avisos"></div>
+            <div class="questao"><p><b>4. [FÁCIL] É permitido desrespeitar a hierarquia?</b></p>
+                <select id="q4"><option value="Não">Não</option><option value="Sim">Sim</option></select></div>
+            <div class="questao"><p><b>5. [FÁCIL] Qual o prefixo obrigatório de Recruta?</b></p>
+                <input type="text" id="q5" placeholder="Ex: [REC]"></div>
 
-    <!-- CURSO IFB -->
-    <div class="curso-card">
-        <h2>[⠀IFB⠀]⠀𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗔𝗢⠀𝗕𝗔𝗦𝗜𝗖𝗔</h2>
-        <p>Status: DISPONÍVEL (10 Questões)</p>
-        <button onclick="abrirProva('IFB')" class="btn-prova">ACESSAR PROVA</button>
-    </div>
+            <!-- 5 DIFÍCEIS -->
+            <div class="questao"><p><b>6. [DIFÍCIL] Defina Hierarquia e Disciplina Militar:</b></p>
+                <textarea id="q6" placeholder="Explique com suas palavras..."></textarea></div>
+            <div class="questao"><p><b>7. [DIFÍCIL] Qual a primeira ação de um sentinela em invasão?</b></p>
+                <input type="text" id="q7"></div>
+            <div class="questao"><p><b>8. [DIFÍCIL] O que significa o código QAP e QSL?</b></p>
+                <input type="text" id="q8"></div>
+            <div class="questao"><p><b>9. [DIFÍCIL] Como agir se uma ordem fere as regras do servidor?</b></p>
+                <input type="text" id="q9"></div>
+            <div class="questao"><p><b>10. [DIFÍCIL] Por que o sigilo é vital no BGEex?</b></p>
+                <textarea id="q10"></textarea></div>
 
-    <!-- CURSO CGE -->
-    <div class="curso-card">
-        <h2>[⠀CGE⠀]⠀𝗚𝗨𝗘𝗥𝗥𝗔⠀𝗘𝗟𝗘𝗧𝗥𝗢𝗡𝗜𝗖𝗔</h2>
-        <p>Status: RESTRITO (Oficiais)</p>
-        <button onclick="abrirProva('CGE')" class="btn-prova">ACESSAR PROVA</button>
-    </div>
-
-    <!-- ÁREA DA PROVA -->
-    <div id="sistema-questoes">
-        <h2 id="titulo-prova"></h2>
-        <div id="questoes-container">
-            <!-- As questões aparecem aqui -->
+            <button class="btn" onclick="enviarProva()">FINALIZAR E ENVIAR PROVA</button>
         </div>
-        <br>
-        <button onclick="finalizarProva()" class="btn-prova">ENVIAR RESPOSTAS AO COMANDO</button>
     </div>
-</div>
 
-<script>
-function abrirProva(tipo) {
-    const login = confirm("Deseja realizar o login via Discord para validar sua patente?");
-    if(login) {
-        document.getElementById('sistema-questoes').style.display = 'block';
-        document.getElementById('titulo-prova').innerText = "AVALIAÇÃO: " + tipo;
-        gerarQuestoes(tipo);
+    <script>
+    async function enviarProva() {
+        // --- COLE O LINK DO SEU WEBHOOK ENTRE AS ASPAS ABAIXO ---
+        const webhookUrl = "https://discord.com/api/webhooks/1492898908693725455/YjFwgvdWlLIcI7YQvGZpeTrbyD30wHO49lcveBMALUw93PKjAwmKy_1jopRue0Miq6a3";
+        // -------------------------------------------------------
+
+        const nome = document.getElementById('nome_discord').value;
+        if(!nome) return alert("Por favor, digite seu nome do Discord!");
+
+        const dados = {
+            embeds: [{
+                title: "📑 NOVA PROVA RECEBIDA - IFB",
+                color: 16711680,
+                fields: [
+                    { name: "👤 Soldado:", value: nome },
+                    { name: "📝 Status:", value: "O recruta completou todas as 10 questões. Verifique as respostas abertas no canal oficial." }
+                ],
+                footer: { text: "Instituto Mente Genial | BGEex" }
+            }]
+        };
+
+        try {
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dados)
+            });
+            alert("PROVA ENVIADA COM SUCESSO! Aguarde o resultado.");
+        } catch (e) {
+            alert("Erro ao enviar. Verifique o link do Webhook.");
+        }
     }
-}
-
-function gerarQuestoes(tipo) {
-    let html = "";
-    if(tipo === 'IFB') {
-        // 5 Fáceis + 5 Difíceis (Exemplos)
-        const q = [
-            "1. (FÁCIL) Qual a resposta correta para um superior? (A) Oi (B) Sim, Senhor",
-            "2. (FÁCIL) O que significa a sigla EB? (A) Exército Brasileiro (B) Elite Bruta",
-            "3. (DIFÍCIL) Qual a punição para Deserção em serviço segundo o Código Militar?",
-            "4. (DIFÍCIL) Defina a diferença entre Hierarquia e Disciplina no RP."
-        ];
-        q.forEach(pergunta => {
-            html += `<p><b>${pergunta}</b></p><input type='text' style='width:100%'><br>`;
-        });
-    }
-    document.getElementById('questoes-container').innerHTML = html;
-}
-
-function finalizarProva() {
-    alert("Respostas enviadas! Aguarde a correção de um Oficial no Discord.");
-    window.location.reload();
-}
-</script>
-
+    </script>
 </body>
 </html>
-
