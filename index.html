@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSTITUTO MENTE GENIAL | SISTEMA DE PROVAS</title>
+    <style>
+        :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
+        body { background-color: var(--preto); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; }
+        
+        header { padding: 40px; border-bottom: 3px solid var(--vermelho); background: #000; }
+        .logo { width: 120px; filter: drop-shadow(0 0 10px var(--vermelho)); }
+        
+        .container { padding: 20px; max-width: 800px; margin: auto; }
+        .aviso-discord { background: #5865F2; color: white; padding: 15px; border-radius: 8px; margin-bottom: 30px; font-weight: bold; }
+        
+        .curso-card { background: var(--cinza); border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        .btn-prova { background: var(--vermelho); color: white; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; display: inline-block; cursor: pointer; border: none; }
+        
+        /* Sistema de Questões (Escondido inicialmente) */
+        #sistema-questoes { display: none; background: #fff; color: #000; padding: 20px; border-radius: 10px; text-align: left; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
+    <p>SISTEMA DE AVALIAÇÃO TÁTICA</p>
+</header>
+
+<div class="container">
+    <div class="aviso-discord">
+        ⚠️ ATENÇÃO: PARA QUE SUA NOTA SEJA VÁLIDA, VOCÊ DEVE ESTAR CONECTADO AO DISCORD DO BGEex.
+    </div>
+
+    <!-- CURSO IFB -->
+    <div class="curso-card">
+        <h2>[⠀IFB⠀]⠀𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗔𝗢⠀𝗕𝗔𝗦𝗜𝗖𝗔</h2>
+        <p>Status: DISPONÍVEL (10 Questões)</p>
+        <button onclick="abrirProva('IFB')" class="btn-prova">ACESSAR PROVA</button>
+    </div>
+
+    <!-- CURSO CGE -->
+    <div class="curso-card">
+        <h2>[⠀CGE⠀]⠀𝗚𝗨𝗘𝗥𝗥𝗔⠀𝗘𝗟𝗘𝗧𝗥𝗢𝗡𝗜𝗖𝗔</h2>
+        <p>Status: RESTRITO (Oficiais)</p>
+        <button onclick="abrirProva('CGE')" class="btn-prova">ACESSAR PROVA</button>
+    </div>
+
+    <!-- ÁREA DA PROVA -->
+    <div id="sistema-questoes">
+        <h2 id="titulo-prova"></h2>
+        <div id="questoes-container">
+            <!-- As questões aparecem aqui -->
+        </div>
+        <br>
+        <button onclick="finalizarProva()" class="btn-prova">ENVIAR RESPOSTAS AO COMANDO</button>
+    </div>
+</div>
+
+<script>
+function abrirProva(tipo) {
+    const login = confirm("Deseja realizar o login via Discord para validar sua patente?");
+    if(login) {
+        document.getElementById('sistema-questoes').style.display = 'block';
+        document.getElementById('titulo-prova').innerText = "AVALIAÇÃO: " + tipo;
+        gerarQuestoes(tipo);
+    }
+}
+
+function gerarQuestoes(tipo) {
+    let html = "";
+    if(tipo === 'IFB') {
+        // 5 Fáceis + 5 Difíceis (Exemplos)
+        const q = [
+            "1. (FÁCIL) Qual a resposta correta para um superior? (A) Oi (B) Sim, Senhor",
+            "2. (FÁCIL) O que significa a sigla EB? (A) Exército Brasileiro (B) Elite Bruta",
+            "3. (DIFÍCIL) Qual a punição para Deserção em serviço segundo o Código Militar?",
+            "4. (DIFÍCIL) Defina a diferença entre Hierarquia e Disciplina no RP."
+        ];
+        q.forEach(pergunta => {
+            html += `<p><b>${pergunta}</b></p><input type='text' style='width:100%'><br>`;
+        });
+    }
+    document.getElementById('questoes-container').innerHTML = html;
+}
+
+function finalizarProva() {
+    alert("Respostas enviadas! Aguarde a correção de um Oficial no Discord.");
+    window.location.reload();
+}
+</script>
+
+</body>
+</html>
+
