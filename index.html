@@ -3,119 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSTITUTO MENTE GENIAL | SISTEMA DE PROVAS</title>
+    <title>INSTITUTO MENTE GENIAL | PROVAS</title>
     <style>
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
-        body { background-color: var(--preto); color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 0; }
-        header { padding: 40px; border-bottom: 3px solid var(--vermelho); background: #000; }
-        .container { padding: 20px; max-width: 800px; margin: auto; }
-        .curso-card { background: var(--cinza); border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 20px; transition: 0.3s; }
-        .curso-card:hover { border-color: var(--vermelho); }
-        .btn-prova { background: var(--vermelho); color: white; padding: 15px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; width: 100%; font-size: 1.1em; }
-        #sistema-questoes { display: none; background: #111; padding: 25px; border-radius: 10px; text-align: left; margin-top: 20px; border: 1px solid var(--vermelho); }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; box-sizing: border-box; background: #222; color: #fff; border: 1px solid #444; }
-        label { font-weight: bold; color: var(--vermelho); }
+        body { background: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: auto; }
+        h1 { color: var(--vermelho); text-transform: uppercase; }
+        select, input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; box-sizing: border-box; background: #222; color: #fff; }
+        .questao { text-align: left; background: #111; padding: 15px; border-radius: 5px; margin-bottom: 10px; border-left: 4px solid var(--vermelho); }
+        .nivel { font-size: 0.75em; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .facil { color: #00ff00; }
+        .dificil { color: #ff0000; }
+        .btn { background: var(--vermelho); color: white; padding: 18px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
-    <p>📡 CENTRO DE EXCELÊNCIA EM GUERRA ELETRÔNICA [BGEex]</p>
-</header>
-
-<div class="container" id="menu-cursos">
-    <div class="curso-card">
-        <h2>[⠀IFB⠀]⠀𝗜𝗡𝗦𝗧𝗥𝗨𝗖𝗔𝗢⠀𝗕𝗔𝗦𝗜𝗖𝗔</h2>
-        <p>Curso inicial de formação de recrutas.</p>
-        <button onclick="abrirProva('IFB')" class="btn-prova">ACESSAR PROVA</button>
-    </div>
-
-    <div class="curso-card">
-        <h2>[⠀CGE⠀]⠀𝗚𝗨𝗘𝗥𝗥𝗔⠀𝗘𝗟𝗘𝗧𝗥𝗢𝗡𝗜𝗖𝗔</h2>
-        <p>Especialização avançada (Apenas Oficiais).</p>
-        <button onclick="abrirProva('CGE')" class="btn-prova">ACESSAR PROVA (RESTRITO)</button>
-    </div>
-</div>
-
-<div id="sistema-questoes" class="container">
-    <h2 id="titulo-prova" style="color:var(--vermelho)"></h2>
-    <p>Identifique-se para validar sua pontuação:</p>
-    <input type="text" id="nome_discord" placeholder="SEU NOME E TAG NO DISCORD (Ex: Nome#0000)">
-    
-    <div id="perguntas">
-        <!-- As 10 perguntas serão carregadas aqui via JavaScript -->
-    </div>
-
-    <button onclick="enviarParaDiscord()" class="btn-prova">FINALIZAR E ENVIAR AO COMANDO</button>
-    <p style="font-size: 0.8em; margin-top: 15px; color: #888;">Ao enviar, suas respostas serão registradas no canal oficial de registros.</p>
-</div>
-
-<script>
-    let cursoAtual = "";
-    // Webhook já configurado para o canal do Discord
-    const webhookUrl = "https://discord.com/api/webhooks/1492898908693725455/YjFwgvdWlLIcI7YQvGZpeTrbyD30wHO49lcveBMALUw93PKjAwmKy_1jopRue0Miq6a3";
-
-    function abrirProva(tipo) {
-        cursoAtual = tipo;
-        document.getElementById('menu-cursos').style.display = 'none';
-        document.getElementById('sistema-questoes').style.display = 'block';
-        document.getElementById('titulo-prova').innerText = "AVALIAÇÃO TÁTICA: " + tipo;
+    <div class="card">
+        <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
+        <p>IDENTIFIQUE-SE PARA INICIAR AVALIAÇÃO:</p>
+        <input type="text" id="nome_discord" placeholder="SEU NOME#0000">
         
-        let html = "";
-        for(let i=1; i<=10; i++) {
-            html += `<div style="margin-bottom:20px;">
-                        <label>PERGUNTA ${i}:</label>
-                        <textarea id="p${i}" rows="2" placeholder="Sua resposta detalhada..."></textarea>
-                     </div>`;
-        }
-        document.getElementById('perguntas').innerHTML = html;
-        window.scrollTo(0,0);
+        <p>SELECIONE O CURSO DESEJADO:</p>
+        <select id="selecao_curso" onchange="carregarQuestoes()">
+            <option value="">-- CLIQUE PARA ESCOLHER --</option>
+            <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
+            <option value="AMAN">ACADEMIA MILITAR (AMAN)</option>
+            <option value="CGE">GUERRA ELETRÔNICA (CGEex)</option>
+        </select>
+
+        <div id="area_provas" style="display:none;">
+            <div id="questoes_container"></div>
+            <button class="btn" onclick="enviarParaDiscord()">ENVIAR RESPOSTAS AO QG</button>
+        </div>
+    </div>
+
+    <script>
+    const banco = {
+        "IFB": [
+            {t: "Fácil Extremo", q: "Qual a ÚNICA frase permitida ao receber uma ordem?"},
+            {t: "Fácil Extremo", q: "Qual o prefixo obrigatório para Recrutas?"},
+            {t: "Fácil Extremo", q: "É permitido falar sem permissão em formação?"},
+            {t: "Fácil Extremo", q: "Onde ficam as regras gerais do servidor?"},
+            {t: "Fácil Extremo", q: "O que significa a sigla EB?"},
+            {t: "Difícil Extremo", q: "Explique a diferença entre Insubordinação e Deserção:"},
+            {t: "Difícil Extremo", q: "Qual o protocolo exato de saudação ao Comandante?"},
+            {t: "Difícil Extremo", q: "Como agir em caso de PowerGaming de civis?"},
+            {t: "Difícil Extremo", q: "Defina o conceito de Disciplina Militar no RP:"},
+            {t: "Difícil Extremo", q: "O que fazer se um superior quebrar as regras?"}
+        ],
+        "AMAN": [
+            {t: "Fácil Extremo", q: "Qual a função de um Cadete na hierarquia?"},
+            {t: "Fácil Extremo", q: "O que significa AMAN?"},
+            {t: "Fácil Extremo", q: "Qual a patente máxima de um Oficial Superior?"},
+            {t: "Fácil Extremo", q: "Um Aspirante pode punir um Recruta?"},
+            {t: "Fácil Extremo", q: "Qual o lema da Academia Militar?"},
+            {t: "Difícil Extremo", q: "Descreva a estratégia de cerco em área urbana:"},
+            {t: "Difícil Extremo", q: "Como organizar uma linha de frente sob fogo pesado?"},
+            {t: "Difícil Extremo", q: "Defina a ética de um Oficial frente a subordinados:"},
+            {t: "Difícil Extremo", q: "Como planejar uma escolta VIP de alto risco?"},
+            {t: "Difícil Extremo", q: "Qual o protocolo de rendição de tropas inimigas?"}
+        ],
+        "CGE": [
+            {t: "Fácil Extremo", q: "O que significa o Código QSL?"},
+            {t: "Fácil Extremo", q: "Qual rádio o BGEex utiliza no rádio (frequência)?"},
+            {t: "Fácil Extremo", q: "O que significa QAP?"},
+            {t: "Fácil Extremo", q: "Pode passar rádio de brincadeira?"},
+            {t: "Fácil Extremo", q: "O que o BGEex protege principalmente?"},
+            {t: "Difícil Extremo", q: "Como detectar uma interceptação de rádio inimiga?"},
+            {t: "Difícil Extremo", q: "Explique o processo de triangulação de sinal:"},
+            {t: "Difícil Extremo", q: "O que é 'Guerra Cibernética' no contexto militar?"},
+            {t: "Difícil Extremo", q: "Como agir se a frequência principal for hackeada?"},
+            {t: "Difícil Extremo", q: "Defina o uso de rádio silêncio em missões stealth:"}
+        ]
+    };
+
+    function carregarQuestoes() {
+        const curso = document.getElementById('selecao_curso').value;
+        const container = document.getElementById('questoes_container');
+        if (!curso) return document.getElementById('area_provas').style.display = 'none';
+
+        document.getElementById('area_provas').style.display = 'block';
+        container.innerHTML = "";
+        
+        banco[curso].forEach((item, i) => {
+            const cor = item.t.includes("Fácil") ? "facil" : "dificil";
+            container.innerHTML += `
+                <div class="questao">
+                    <span class="nivel ${cor}">[ ${item.t} ]</span>
+                    <p><b>${item.q}</b></p>
+                    <textarea id="res_${i}" placeholder="Sua resposta extrema aqui..."></textarea>
+                </div>`;
+        });
     }
 
     async function enviarParaDiscord() {
+        const webhook = "LINK_DO_SEU_WEBHOOK_AQUI"; // <-- COLE SEU LINK AQUI
         const nome = document.getElementById('nome_discord').value;
-        if(!nome) return alert("ERRO: Identifique-se com seu Nome do Discord!");
+        const curso = document.getElementById('selecao_curso').value;
 
-        let camposRespostas = [];
-        for(let i=1; i<=10; i++) {
-            let val = document.getElementById('p'+i).value;
-            if(!val) val = "Sem resposta.";
-            camposRespostas.push({ name: `Questão ${i}`, value: val, inline: false });
+        if(!nome) return alert("RECRUTA! DIGITE SEU NOME!");
+
+        let resps = "";
+        for(let i=0; i<10; i++) {
+            resps += `**${i+1}:** ${document.getElementById('res_'+i).value}\n`;
         }
 
-        const dados = {
-            embeds: [{
-                title: "📑 NOVA AVALIAÇÃO RECEBIDA",
-                color: 16711680,
-                fields: [
-                    { name: "👤 SOLDADO", value: nome, inline: true },
-                    { name: "🎓 CURSO", value: cursoAtual, inline: true },
-                    ...camposRespostas
-                ],
-                footer: { text: "Sistema de Inteligência - Instituto Mente Genial" },
-                timestamp: new Date()
-            }]
+        const payload = {
+            embeds:
         };
 
-        try {
-            const response = await fetch(webhookUrl, { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify(dados) 
-            });
-
-            if(response.ok) {
-                alert("PROVA ENVIADA COM SUCESSO! O Comando analisará suas respostas.");
-                window.location.reload();
-            } else {
-                alert("Erro ao conectar com o servidor. Tente novamente.");
-            }
-        } catch (e) {
-            alert("Erro de conexão. Verifique sua internet.");
-        }
+        await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+        alert("PROVA ENVIADA AO QG!");
     }
-</script>
-
+    </script>
 </body>
 </html>
