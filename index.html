@@ -23,7 +23,7 @@
         <input type="text" id="nome_discord" placeholder="SEU NOME (Ex: coloque seu nome aqui )">
         
         <p>SELECIONE O CURSO PARA CARREGAR AS PERGUNTAS:</p>
-        <select id="selecao_curso" onchange="carregarQuestoes()">
+        <select id="selecao_curso">
             <option value="">-- ESCOLHA O CURSO AQUI --</option>
             <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
             <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
@@ -39,27 +39,36 @@
     </div>
 
     <script>
-    // AS PERGUNTAS ESTÃO AQUI DENTRO DO SCRIPT:
     const banco = {
-        "IFB": ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação?","Saudação?","Invasão?","Disciplina?","Superior Errar?"],
-        "CLD": ["O que é CLD?","Função de um Líder?","Comando?","Insubordinação?","Postura Militar?","Estratégia?","Linha de frente?","Ética Oficial?","Escolta de Risco?","Protocolo de Comando?"],
-        "CGE": ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo?","Proteção?","Interceptação?","Triangulação?","Cibernética?","Hackeado?","Silêncio?"]
+        IFB: ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação?","Saudação?","Invasão?","Disciplina?","Superior Errar?"],
+        CLD: ["O que é CLD?","Função de um Líder?","Comando?","Insubordinação?","Postura Militar?","Estratégia?","Linha de frente?","Ética Oficial?","Escolta de Risco?","Protocolo de Comando?"],
+        CGE: ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo?","Proteção?","Interceptação?","Triangulação?","Cibernética?","Hackeado?","Silêncio?"]
     };
 
     function carregarQuestoes() {
         const curso = document.getElementById('selecao_curso').value;
         const container = document.getElementById('questoes_container');
-        if (!curso) return;
-        
-        container.innerHTML = "";
+
+        container.innerHTML = ""; // Limpa antes de adicionar
+
+        if (!curso || !banco[curso]) return;
+
         banco[curso].forEach((pergunta, i) => {
-            container.innerHTML += `
-                <div class="questao">
-                    <p><b>${i+1}. ${pergunta}</b></p>
-                    <textarea id="res_${i}" rows="2" placeholder="Sua resposta..."></textarea>
-                </div>`;
+            const div = document.createElement('div');
+            div.className = 'questao';
+            div.innerHTML = `
+                <p><b>${i + 1}. ${pergunta}</b></p>
+                <textarea id="res_${i}" rows="2" placeholder="Sua resposta..."></textarea>
+            `;
+            container.appendChild(div);
         });
     }
+
+    // Garante que o evento funcione em todos os navegadores
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('selecao_curso')
+                .addEventListener('change', carregarQuestoes);
+    });
 
     function enviarParaDiscord() {
         const curso = document.getElementById('selecao_curso').value;
@@ -69,4 +78,38 @@
         if (curso === "CLD") {
             webhook = "https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv";
         } else if (curso === "IFB") {
-            webhook = "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8X
+            webhook = "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy";
+        } else if (curso === "CGE") {
+            webhook = "https://discord.com/api/webhooks/1492933590961619167/-TMRlkEmAE63JBQVk2z6qKts5eRpHoIZR89ufMhhJ9ZMlx8sh36Mw0lppYpRX4AZHtcz";
+        }
+
+        if (!nome || !curso) {
+            alert("⚠️ Digite seu nome e escolha o curso!");
+            return;
+        }
+
+        let resps = "";
+        for (let i = 0; i < 10; i++) {
+            const campo = document.getElementById('res_' + i);
+            const val = campo ? campo.value : "Não respondeu";
+            resps += `**Q${i + 1}:** ${val}\n`;
+        }
+
+        fetch(webhook, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                embeds: [{
+                    title: `🚩 NOVA AVALIAÇÃO: ${curso}`,
+                    color: 16711680,
+                    description: `**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`
+                }]
+            })
+        });
+
+        alert("Enviado com sucesso! Espere os administradores ou oficiais avaliar sua prova. Boa sorte!!");
+        window.location.reload();
+    }
+    </script>
+</body>
+</html>
