@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSTITUTO MENTE GENIAL | PROVAS</title>
+    <title>INSTITUTO MENTE GENIAL | SISTEMA MULTI-CANAL</title>
     <style>
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
         body { background: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 15px; margin: 0; }
@@ -11,18 +11,18 @@
         h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.5em; }
         input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
         .questao { text-align: left; background: #111; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid var(--vermelho); }
-        .btn { background: var(--vermelho); color: white; padding: 20px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; }
+        .btn { background: var(--vermelho); color: white; padding: 22px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟⠀𝗜𝗡𝗦𝗧𝗜𝗧𝗨𝗧𝗢</h1>
-        <p>📡 SISTEMA DE AVALIAÇÃO BGEex</p>
+        <p>📡 PORTAL DE AVALIAÇÕES TÁTICAS</p>
         
         <input type="text" id="nome_discord" placeholder="SEU NOME (Ex: Adryel0416)">
         
-        <p>SELECIONE O CURSO:</p>
+        <p>SELECIONE SEU CURSO PARA ENVIAR AO QG CORRETO:</p>
         <select id="selecao_curso" onchange="carregarQuestoes()">
             <option value="">-- CLIQUE PARA ESCOLHER --</option>
             <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
@@ -32,16 +32,16 @@
 
         <div id="area_provas">
             <div id="questoes_container">
-                <p style="color: #888; padding: 20px;">Selecione o curso acima para carregar as questões.</p>
+                <p style="color: #888; padding: 20px;">Selecione o curso para carregar as perguntas.</p>
             </div>
-            <button class="btn" id="botao_enviar" onclick="enviarParaDiscord()">FINALIZAR E ENVIAR AO QG</button>
+            <button class="btn" onclick="enviarParaDiscord()">ENVIAR AO CANAL ESPECÍFICO</button>
         </div>
     </div>
 
     <script>
     const banco = {
         "IFB": ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação vs Deserção?","Saudação ao Comandante?","Invasão de civis?","Disciplina Militar?","Superior quebrar regras?"],
-        "AMAN": ["O que é AMAN?","Acima de Cadete?","O que é Aspirante?","Lema da AMAN?","Punição de oficial?","Cerco Urbano?","Linha de frente?","Ética Oficial?","Escolta VIP?","Rendição inimiga?"],
+        "AMAN": ["O que significa AMAN?","Acima de Cadete?","O que é Aspirante?","Lema da AMAN?","Punição de oficial?","Cerco Urbano?","Linha de frente?","Ética Oficial?","Escolta VIP?","Rendição inimiga?"],
         "CGE": ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo vital?","O que protege?","Interceptação?","Triangulação?","Guerra Cibernética?","Rádio hackeado?","Rádio silêncio?"]
     };
 
@@ -55,45 +55,45 @@
         });
     }
 
-    function enviarParaDiscord() {
-        const webhook = "https://discord.com/api/webhooks/1492898908693725455/YjFwgvdWlLIcI7YQvGZpeTrbyD30wHO49lcveBMALUw93PKjAwmKy_1jopRue0Miq6a3";
-        const nome = document.getElementById('nome_discord').value;
+    async function enviarParaDiscord() {
         const curso = document.getElementById('selecao_curso').value;
+        const nome = document.getElementById('nome_discord').value;
 
-        if(!nome || !curso) {
-            alert("⚠️ PREENCHA SEU NOME E ESCOLHA O CURSO!");
-            return;
+        // DIRECIONAMENTO DE WEBHOOKS
+        let webhook = "";
+        if (curso === "AMAN") {
+            webhook = "https://discord.com/api/webhooks/1492927159503945860/kKkciq4rFXhk1c8YfBb-Z9DBWHWNS1FYF61J-Mg-autkgk11gX9PvsJXi5wXN_2IHy5D";
+        } else if (curso === "IFB") {
+            webhook = "https://discord.com/api/webhooks/1492898908693725455/YjFwgvdWlLIcI7YQvGZpeTrbyD30wHO49lcveBMALUw93PKjAwmKy_1jopRue0Miq6a3";
+        } else if (curso === "CGE") {
+            webhook = "https://discord.com/api/webhooks/1492926950157717525/ewUL5sB4d76UPtZOkUHpAtb8KKjEPUcSe5aQ3nByQpkWibk6G53620LrWK-aCd1ZKtoO";
         }
 
-        let respostas = "";
+        if(!nome || !webhook) return alert("⚠️ SELECIONE O CURSO E DIGITE SEU NOME!");
+
+        let resps = "";
         for(let i=0; i<10; i++) {
-            const val = document.getElementById('res_'+i) ? document.getElementById('res_'+i).value : "Não respondido";
-            respostas += `**Q${i+1}:** ${val}\n`;
+            const val = document.getElementById('res_'+i).value || "Vazio";
+            resps += `**Q${i+1}:** ${val}\n`;
         }
 
-        const conteudo = {
+        const payload = {
             embeds: [{
-                title: "📑 NOVA PROVA RECEBIDA",
+                title: `🚩 NOVA AVALIAÇÃO: ${curso}`,
                 color: 16711680,
                 fields: [
                     { name: "👤 Soldado:", value: nome, inline: true },
-                    { name: "🎓 Curso:", value: curso, inline: true },
-                    { name: "📝 Respostas:", value: respostas.substring(0, 1000) }
+                    { name: "📝 Respostas:", value: resps.substring(0, 1000) }
                 ],
-                footer: { text: "Instituto Mente Genial | BGEex" }
+                footer: { text: "Instituto Mente Genial | Sistema Integrado" }
             }]
         };
 
-        fetch(webhook, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(conteudo)
-        })
-        .then(() => {
-            alert("✅ PROVA ENVIADA COM SUCESSO!");
+        try {
+            await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+            alert("✅ ENVIADO AO GRUPO CORRETO!");
             window.location.reload();
-        })
-        .catch(() => alert("❌ ERRO AO ENVIAR. TENTE NOVAMENTE."));
+        } catch (e) { alert("❌ ERRO NO ENVIO!"); }
     }
     </script>
 </body>
