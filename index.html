@@ -72,18 +72,14 @@
 
         const msg = `**NOVA AVALIAÇÃO: ${curso}**\n**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`;
 
-        // NOVO MÉTODO: Usa um formulário invisível para pular o bloqueio do navegador
-        const body = JSON.stringify({ content: msg });
-        
-        fetch(webhook, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: body,
-            mode: 'no-cors' // ESTA LINHA É O SEGREDO PARA NÃO DAR ERRO DE CONEXÃO
-        });
+        // MÉTODO DE ENVIO INFALÍVEL
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", webhook, true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify({ content: msg }));
 
-        alert("✅ PROVA ENVIADA COM SUCESSO!\nVerifique o seu canal no Discord.");
-        window.location.reload();
+        alert("✅ PROVA ENVIADA COM SUCESSO!");
+        setTimeout(() => { window.location.reload(); }, 1000);
     }
     </script>
 </body>
