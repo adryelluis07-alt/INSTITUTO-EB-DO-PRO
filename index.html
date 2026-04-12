@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSTITUTO MENTE GENIAL | SISTEMA MULTI-CANAL</title>
+    <title>SISTEMA MILITAR | BGEex</title>
     <style>
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
         body { background: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 15px; margin: 0; }
-        .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: 20px auto; }
-        h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.5em; }
+        .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: 20px auto; box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+        h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.5em; letter-spacing: 2px; }
         input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
         .questao { text-align: left; background: #111; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid var(--vermelho); }
         .btn { background: var(--vermelho); color: white; padding: 22px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; text-transform: uppercase; }
@@ -22,27 +22,25 @@
         
         <input type="text" id="nome_discord" placeholder="SEU NOME (Ex: Adryel0416)">
         
-        <p>SELECIONE SEU CURSO PARA ENVIAR AO QG CORRETO:</p>
+        <p>SELECIONE O CURSO PARA INICIAR:</p>
         <select id="selecao_curso" onchange="carregarQuestoes()">
-            <option value="">-- CLIQUE PARA ESCOLHER --</option>
+            <option value="">-- ESCOLHA O CURSO --</option>
             <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
-            <option value="AMAN">ACADEMIA MILITAR (AMAN)</option>
+            <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
             <option value="CGE">GUERRA ELETRÔNICA (CGEex)</option>
         </select>
 
         <div id="area_provas">
-            <div id="questoes_container">
-                <p style="color: #888; padding: 20px;">Selecione o curso para carregar as perguntas.</p>
-            </div>
-            <button class="btn" onclick="enviarParaDiscord()">ENVIAR AO CANAL ESPECÍFICO</button>
+            <div id="questoes_container"></div>
+            <button class="btn" onclick="enviarParaDiscord()">ENVIAR RESPOSTAS AO QG</button>
         </div>
     </div>
 
     <script>
     const banco = {
-        "IFB": ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação vs Deserção?","Saudação ao Comandante?","Invasão de civis?","Disciplina Militar?","Superior quebrar regras?"],
-        "AMAN": ["O que significa AMAN?","Acima de Cadete?","O que é Aspirante?","Lema da AMAN?","Punição de oficial?","Cerco Urbano?","Linha de frente?","Ética Oficial?","Escolta VIP?","Rendição inimiga?"],
-        "CGE": ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo vital?","O que protege?","Interceptação?","Triangulação?","Guerra Cibernética?","Rádio hackeado?","Rádio silêncio?"]
+        "IFB": ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação?","Saudação?","Invasão?","Disciplina?","Superior Errar?"],
+        "CLD": ["O que é CLD?","Função de um Líder?","Como comandar subordinados?","O que é Insubordinação?","Importância da Postura?","Estratégia de campo?","Linha de frente?","Ética Oficial?","Escolta de Risco?","Protocolo de Comando?"],
+        "CGE": ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo?","Proteção?","Interceptação?","Triangulação?","Cibernética?","Hackeado?","Silêncio?"]
     };
 
     function carregarQuestoes() {
@@ -50,26 +48,24 @@
         const container = document.getElementById('questoes_container');
         if (!curso) return;
         container.innerHTML = "";
-        banco[curso].forEach((pergunta, i) => {
-            container.innerHTML += `<div class="questao"><p><b>${i+1}. ${pergunta}</b></p><textarea id="res_${i}" rows="2"></textarea></div>`;
+        banco[curso].forEach((q, i) => {
+            container.innerHTML += `<div class="questao"><p><b>${i+1}. ${q}</b></p><textarea id="res_${i}" rows="2"></textarea></div>`;
         });
     }
 
-    async function enviarParaDiscord() {
+    function enviarParaDiscord() {
         const curso = document.getElementById('selecao_curso').value;
         const nome = document.getElementById('nome_discord').value;
 
-        // DIRECIONAMENTO DE WEBHOOKS
         let webhook = "";
-        if (curso === "AMAN") {
-            webhook = "https://discord.com/api/webhooks/1492927159503945860/kKkciq4rFXhk1c8YfBb-Z9DBWHWNS1FYF61J-Mg-autkgk11gX9PvsJXi5wXN_2IHy5D";
-        } else if (curso === "IFB") {
-            webhook = "https://discord.com/api/webhooks/1492898908693725455/YjFwgvdWlLIcI7YQvGZpeTrbyD30wHO49lcveBMALUw93PKjAwmKy_1jopRue0Miq6a3";
-        } else if (curso === "CGE") {
-            webhook = "https://discord.com/api/webhooks/1492926950157717525/ewUL5sB4d76UPtZOkUHpAtb8KKjEPUcSe5aQ3nByQpkWibk6G53620LrWK-aCd1ZKtoO";
-        }
+        // WEBHOOK DO CLD (Antigo AMAN)
+        if (curso === "CLD") webhook = "https://discord.com";
+        // WEBHOOK DO IFB
+        else if (curso === "IFB") webhook = "https://discord.com";
+        // WEBHOOK DO CGEex
+        else if (curso === "CGE") webhook = "https://discord.com";
 
-        if(!nome || !webhook) return alert("⚠️ SELECIONE O CURSO E DIGITE SEU NOME!");
+        if(!nome || !webhook) return alert("⚠️ Digite seu nome e escolha o curso!");
 
         let resps = "";
         for(let i=0; i<10; i++) {
@@ -77,24 +73,27 @@
             resps += `**Q${i+1}:** ${val}\n`;
         }
 
-        const payload = {
+        const payload = JSON.stringify({
             embeds: [{
                 title: `🚩 NOVA AVALIAÇÃO: ${curso}`,
                 color: 16711680,
-                fields: [
-                    { name: "👤 Soldado:", value: nome, inline: true },
-                    { name: "📝 Respostas:", value: resps.substring(0, 1000) }
-                ],
-                footer: { text: "Instituto Mente Genial | Sistema Integrado" }
+                description: `**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`
             }]
-        };
+        });
 
-        try {
-            await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-            alert("✅ ENVIADO AO GRUPO CORRETO!");
+        // Método de envio reforçado para mobile
+        fetch(webhook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload
+        })
+        .then(() => {
+            alert("✅ ENVIADO COM SUCESSO AO CANAL DO " + curso + "!");
             window.location.reload();
-        } catch (e) { alert("❌ ERRO NO ENVIO!"); }
+        })
+        .catch(() => alert("❌ ERRO NO ENVIO!"));
     }
     </script>
 </body>
 </html>
+
