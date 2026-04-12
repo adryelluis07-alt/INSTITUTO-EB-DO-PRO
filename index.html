@@ -8,14 +8,10 @@
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
         body { background: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 15px; margin: 0; }
         .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: 20px auto; box-shadow: 0 0 20px rgba(255,0,0,0.4); }
-        h1 { color: var(--vermelho); text-transform: uppercase; letter-spacing: 2px; font-size: 1.5em; }
-        select, input, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; box-sizing: border-box; background: #222; color: #fff; font-size: 16px; }
+        h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.5em; margin-bottom: 0; }
+        input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
         .questao { text-align: left; background: #111; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid var(--vermelho); }
-        .nivel { font-size: 0.75em; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .facil { color: #00ff00; }
-        .dificil { color: #ff0000; }
-        .btn { background: var(--vermelho); color: white; padding: 22px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 30px; font-size: 1.3em; border-radius: 8px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(255,0,0,0.4); }
-        #area_provas { display: block; min-height: 300px; }
+        .btn { background: var(--vermelho); color: white; padding: 20px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -26,9 +22,9 @@
         
         <input type="text" id="nome_discord" placeholder="SEU NOME E TAG (Ex: Adryel#0000)">
         
-        <p>ESCOLHA SUA ESPECIALIZAÇÃO PARA CARREGAR AS QUESTÕES:</p>
+        <p>SELECIONE O CURSO:</p>
         <select id="selecao_curso" onchange="carregarQuestoes()">
-            <option value="">-- CLIQUE AQUI PARA SELECIONAR --</option>
+            <option value="">-- CLIQUE PARA ESCOLHER --</option>
             <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
             <option value="AMAN">ACADEMIA MILITAR (AMAN)</option>
             <option value="CGE">GUERRA ELETRÔNICA (CGEex)</option>
@@ -36,7 +32,7 @@
 
         <div id="area_provas">
             <div id="questoes_container">
-                <p style="color: #888; padding: 40px 0;">Aguardando seleção de curso...</p>
+                <p id="msg_espera" style="color: #888; padding: 20px;">Escolha o curso acima para ver as questões...</p>
             </div>
             <button class="btn" onclick="enviarParaDiscord()">FINALIZAR E ENVIAR AO QG</button>
         </div>
@@ -45,59 +41,58 @@
     <script>
     const banco = {
         "IFB": [
-            {t: "Fácil", q: "Qual a única resposta permitida ao receber ordens?"},
-            {t: "Fácil", q: "Qual o prefixo de Recruta no servidor?"},
-            {t: "Fácil", q: "Onde ficam os comunicados oficiais do comando?"},
-            {t: "Fácil", q: "É permitido desrespeitar a hierarquia no chat?"},
-            {t: "Fácil", q: "O que significa a sigla EB?"},
-            {t: "Difícil", q: "Explique a diferença entre Insubordinação e Deserção:"},
-            {t: "Difícil", q: "Qual o protocolo de saudação ao General?"},
-            {t: "Difícil", q: "Como agir em caso de invasão de civis?"},
-            {t: "Difícil", q: "Defina o conceito de Disciplina Militar no RP:"},
-            {t: "Difícil", q: "O que fazer se um superior quebrar as regras?"}
+            "1. Qual a única resposta permitida ao receber ordens?",
+            "2. Qual o prefixo de Recruta no servidor?",
+            "3. Onde ficam os comunicados oficiais?",
+            "4. É permitido desrespeitar a hierarquia?",
+            "5. O que significa a sigla EB?",
+            "6. Diferença entre Insubordinação e Deserção:",
+            "7. Protocolo de saudação ao Comandante:",
+            "8. Como agir em caso de invasão de civis?",
+            "9. Conceito de Disciplina Militar no RP:",
+            "10. O que fazer se um superior quebrar as regras?"
         ],
         "AMAN": [
-            {t: "Fácil", q: "O que significa a sigla AMAN?"},
-            {t: "Fácil", q: "Qual a patente logo acima de Cadete?"},
-            {t: "Fácil", q: "O que é um Aspirante a Oficial?"},
-            {t: "Fácil", q: "Qual o lema principal da Academia Militar?"},
-            {t: "Fácil", q: "Um oficial pode ser punido por um praça?"},
-            {t: "Difícil", q: "Descreva uma estratégia de cerco em área urbana:"},
-            {t: "Difícil", q: "Como organizar uma linha de frente sob fogo pesado?"},
-            {t: "Difícil", q: "Defina a ética de um Oficial frente a subordinados:"},
-            {t: "Difícil", q: "Como planejar uma escolta VIP de alto risco?"},
-            {t: "Difícil", q: "Qual o protocolo de rendição de tropas inimigas?"}
+            "1. O que significa a sigla AMAN?",
+            "2. Patente logo acima de Cadete?",
+            "3. O que é um Aspirante a Oficial?",
+            "4. Lema principal da Academia Militar?",
+            "5. Um oficial pode ser punido por um praça?",
+            "6. Estratégia de cerco em área urbana:",
+            "7. Como organizar linha de frente sob fogo?",
+            "8. Ética de um Oficial frente a subordinados:",
+            "9. Planejamento de escolta VIP de alto risco:",
+            "10. Protocolo de rendição de tropas inimigas?"
         ],
         "CGE": [
-            {t: "Fácil", q: "O que significa o código QSL no rádio?"},
-            {t: "Fácil", q: "Qual a missão principal do BGEex?"},
-            {t: "Fácil", q: "O que significa QAP no rádio?"},
-            {t: "Fácil", q: "O sigilo das comunicações é opcional?"},
-            {t: "Fácil", q: "O BGEex protege qual tipo de informação?"},
-            {t: "Difícil", q: "Como detectar uma interceptação de rádio inimiga?"},
-            {t: "Difícil", q: "Explique o processo de triangulação de sinal rádio:"},
-            {t: "Difícil", q: "O que é Guerra Cibernética no contexto militar?"},
-            {t: "Difícil", q: "Como agir se a frequência principal for hackeada?"},
-            {t: "Difícil", q: "Defina o uso de rádio silêncio em missões sigilosas:"}
+            "1. Significado do código QSL no rádio?",
+            "2. Missão principal do BGEex?",
+            "3. Significado de QAP no rádio?",
+            "4. Sigilo das comunicações é opcional?",
+            "5. O BGEex protege qual tipo de informação?",
+            "6. Como detectar interceptação de rádio?",
+            "7. Processo de triangulação de sinal rádio:",
+            "8. O que é Guerra Cibernética no RP?",
+            "9. Procedimento para rádio hackeado:",
+            "10. Uso de rádio silêncio em missões?"
         ]
     };
 
     function carregarQuestoes() {
         const curso = document.getElementById('selecao_curso').value;
         const container = document.getElementById('questoes_container');
+        
         if (!curso) return;
 
-        container.innerHTML = "";
-        banco[curso].forEach((item, i) => {
-            const cor = item.t === "Fácil" ? "facil" : "dificil";
+        container.innerHTML = ""; // Limpa a mensagem de espera
+        
+        banco[curso].forEach((pergunta, i) => {
             container.innerHTML += `
                 <div class="questao">
-                    <span class="nivel ${cor}">[ ${item.t} EXTREMO ]</span>
-                    <p><b>${item.q}</b></p>
-                    <textarea id="res_${i}" rows="3" placeholder="Digite sua resposta aqui..."></textarea>
+                    <p><b>${pergunta}</b></p>
+                    <textarea id="res_${i}" rows="3" placeholder="Sua resposta..."></textarea>
                 </div>`;
         });
-        window.scrollBy(0, 300); // Rola a tela um pouco para baixo automaticamente
     }
 
     async function enviarParaDiscord() {
@@ -105,7 +100,7 @@
         const nome = document.getElementById('nome_discord').value;
         const curso = document.getElementById('selecao_curso').value;
 
-        if(!nome || !curso) return alert("RECRUTA! IDENTIFIQUE-SE E ESCOLHA UM CURSO!");
+        if(!nome || !curso) return alert("ERRO: DIGITE SEU NOME E ESCOLHA O CURSO!");
 
         let resps = "";
         for(let i=0; i<10; i++) {
@@ -114,16 +109,16 @@
         }
 
         const payload = {
-            embeds:
+            embeds: [{
+                title: `📑 NOVA PROVA: ${curso}`,
+                color: 16711680,
+                description: `**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`
+            }]
         };
 
-        try {
-            await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-            alert("PROVA ENVIADA AO QG COM SUCESSO!");
-            window.location.reload();
-        } catch (e) {
-            alert("ERRO NO ENVIO!");
-        }
+        await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+        alert("ENVIADO COM SUCESSO!");
+        window.location.reload();
     }
     </script>
 </body>
