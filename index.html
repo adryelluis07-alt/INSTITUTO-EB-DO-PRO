@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSTITUTO MENTE GENIAL | BGEex</title>
+    <title>SISTEMA MILITAR | BGEex</title>
     <style>
         :root { --vermelho: #ff0000; --preto: #0a0a0a; --cinza: #1a1a1a; }
         body { background: var(--preto); color: white; font-family: sans-serif; text-align: center; padding: 15px; margin: 0; }
-        .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: 20px auto; box-shadow: 0 0 20px rgba(255,0,0,0.5); }
-        h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.6em; margin-bottom: 5px; }
+        .card { background: var(--cinza); border: 2px solid var(--vermelho); border-radius: 10px; padding: 20px; max-width: 600px; margin: 20px auto; }
+        h1 { color: var(--vermelho); text-transform: uppercase; font-size: 1.5em; }
         input, select, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
         .questao { text-align: left; background: #111; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid var(--vermelho); }
-        .btn { background: var(--vermelho); color: white; padding: 22px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; text-transform: uppercase; }
+        .btn { background: var(--vermelho); color: white; padding: 22px; border: none; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.2em; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -22,24 +22,27 @@
         
         <input type="text" id="nome_discord" placeholder="SEU NOME (Ex: Adryel0416)">
         
-        <p>SELECIONE O CURSO PARA INICIAR:</p>
+        <p>SELECIONE O CURSO PARA CARREGAR AS PERGUNTAS:</p>
         <select id="selecao_curso" onchange="carregarQuestoes()">
-            <option value="">-- ESCOLHA O CURSO --</option>
+            <option value="">-- ESCOLHA O CURSO AQUI --</option>
             <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
             <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
             <option value="CGE">GUERRA ELETRÔNICA (CGEex)</option>
         </select>
 
         <div id="area_provas">
-            <div id="questoes_container"></div>
+            <div id="questoes_container">
+                <!-- AS PERGUNTAS VÃO BROTAR AQUI EMBAIXO -->
+            </div>
             <button class="btn" onclick="enviarParaDiscord()">ENVIAR RESPOSTAS AO QG</button>
         </div>
     </div>
 
     <script>
+    // AS PERGUNTAS ESTÃO AQUI DENTRO DO SCRIPT:
     const banco = {
         "IFB": ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação?","Saudação?","Invasão?","Disciplina?","Superior Errar?"],
-        "CLD": ["O que é CLD?","Função de um Líder?","Comando de subordinados?","O que é Insubordinação?","Postura Militar?","Estratégia de campo?","Linha de frente?","Ética Oficial?","Escolta de Risco?","Protocolo de Comando?"],
+        "CLD": ["O que é CLD?","Função de um Líder?","Comando?","Insubordinação?","Postura Militar?","Estratégia?","Linha de frente?","Ética Oficial?","Escolta de Risco?","Protocolo de Comando?"],
         "CGE": ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo?","Proteção?","Interceptação?","Triangulação?","Cibernética?","Hackeado?","Silêncio?"]
     };
 
@@ -47,50 +50,47 @@
         const curso = document.getElementById('selecao_curso').value;
         const container = document.getElementById('questoes_container');
         if (!curso) return;
-        container.innerHTML = "";
-        banco[curso].forEach((q, i) => {
-            container.innerHTML += `<div class="questao"><p><b>${i+1}. ${q}</b></p><textarea id="res_${i}" rows="2" placeholder="Digite sua resposta..."></textarea></div>`;
+        
+        container.innerHTML = ""; // Limpa o aviso de espera
+        banco[curso].forEach((pergunta, i) => {
+            container.innerHTML += `
+                <div class="questao">
+                    <p><b>${i+1}. ${pergunta}</b></p>
+                    <textarea id="res_${i}" rows="2" placeholder="Sua resposta..."></textarea>
+                </div>`;
         });
     }
 
-    async function enviarParaDiscord() {
+    function enviarParaDiscord() {
         const curso = document.getElementById('selecao_curso').value;
         const nome = document.getElementById('nome_discord').value;
-
         let webhook = "";
-        if (curso === "IFB") webhook = "https://discord.com";
-        else if (curso === "CLD") webhook = "https://discord.com";
+        
+        if (curso === "CLD") webhook = "https://discord.com";
+        else if (curso === "IFB") webhook = "https://discord.com";
         else if (curso === "CGE") webhook = "https://discord.com";
 
-        if(!nome || !curso) return alert("⚠️ Identifique-se e escolha o curso!");
+        if(!nome || !curso) return alert("⚠️ Digite seu nome e escolha o curso!");
 
         let resps = "";
         for(let i=0; i<10; i++) {
-            const val = document.getElementById('res_'+i).value;
-            // O sistema coloca ✅ se houver resposta e ❌ se estiver vazio. Administradores avaliam o texto depois.
-            const status = val.length > 2 ? "✅" : "❌";
-            resps += `**Q${i+1}:** ${val || "Vazio"} ${status}\n`;
+            const val = document.getElementById('res_'+i).value || "Não respondeu";
+            resps += `**Q${i+1}:** ${val}\n`;
         }
-
-        const payload = {
-            embeds:
-        };
 
         const request = new XMLHttpRequest();
         request.open("POST", webhook);
         request.setRequestHeader('Content-type', 'application/json');
-        
-        request.onload = function() {
-            alert("Enviado com sucesso! Espere os administradores ou oficiais avaliar sua prova. Boa sorte!!");
-            window.location.reload();
-        };
+        request.send(JSON.stringify({
+            embeds: [{
+                title: `🚩 NOVA AVALIAÇÃO: ${curso}`,
+                color: 16711680,
+                description: `**SOLDADO:** ${nome}\n\n**RESPOSTAS:**\n${resps}`
+            }]
+        }));
 
-        request.onerror = function() {
-            alert("Enviado com sucesso! Espere os administradores ou oficiais avaliar sua prova. Boa sorte!!");
-            window.location.reload();
-        };
-
-        request.send(JSON.stringify(payload));
+        alert("Enviado com sucesso! Espere os administradores ou oficiais avaliar sua prova. Boa sorte!!");
+        window.location.reload();
     }
     </script>
 </body>
