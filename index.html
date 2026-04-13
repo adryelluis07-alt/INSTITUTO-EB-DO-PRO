@@ -1,130 +1,138 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SISTEMA MILITAR | BGEex</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA MILITAR | BGEex</title>
+    <style>
+        :root {
+            --vermelho: #ff0000;
+            --preto: #0a0a0a;
+            --cinza: #1a1a1a;
+            --dourado: #ffd700;
+        }
 
-<style>
-:root {
-    --vermelho: #ff0000;
-    --preto: #0a0a0a;
-    --cinza: #1a1a1a;
-    --dourado: #ffd700;
-}
+        body {
+            background: var(--preto);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 15px;
+            margin: 0;
+        }
 
-body {
-    background: var(--preto);
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 15px;
-    margin: 0;
-}
+        .btn-comprar-topo {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            color: var(--vermelho);
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            z-index: 9999;
+            font-size: 13px;
+            padding: 10px;
+        }
 
-.btn-comprar-topo {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    color: var(--vermelho);
-    text-decoration: underline;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 9999;
-    font-size: 13px;
-    padding: 10px;
-}
+        .card {
+            background: var(--cinza);
+            border: 2px solid var(--vermelho);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 60px auto 20px;
+        }
 
-.card {
-    background: var(--cinza);
-    border: 2px solid var(--vermelho);
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 60px auto 20px;
-}
+        h1 {
+            color: var(--vermelho);
+            text-transform: uppercase;
+            font-size: 1.4em;
+        }
 
-h1 {
-    color: var(--vermelho);
-    text-transform: uppercase;
-    font-size: 1.4em;
-}
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
 
-input, select, textarea {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background: #222;
-    color: #fff;
-    font-size: 16px;
-}
+        .questao {
+            text-align: left;
+            background: #111;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--vermelho);
+        }
 
-.questao {
-    text-align: left;
-    background: #111;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border-left: 5px solid var(--vermelho);
-}
+        .btn-enviar {
+            background: var(--vermelho);
+            color: white;
+            padding: 20px;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
 
-.btn-enviar {
-    background: var(--vermelho);
-    color: white;
-    padding: 20px;
-    border: none;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 1.1em;
-}
+        #loja_patentes {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-#loja_patentes {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 10000;
-    overflow-y: auto;
-    padding: 20px;
-}
+        .loja-container {
+            max-width: 550px;
+            margin: auto;
+            background: var(--cinza);
+            border: 2px solid var(--dourado);
+            padding: 20px;
+            border-radius: 15px;
+        }
 
-.loja-container {
-    max-width: 550px;
-    margin: auto;
-    background: var(--cinza);
-    border: 2px solid var(--dourado);
-    padding: 20px;
-    border-radius: 15px;
-}
+        .item-patente {
+            background: #222;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--dourado);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
 
-.item-patente {
-    background: #222;
-    margin: 8px 0;
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .preco {
+            color: #0f0;
+            font-weight: bold;
+        }
 
-.preco {
-    color: #0f0;
-    font-weight: bold;
-}
-
-.btn-pagar {
-    background: #0f0;
-    color: #000;
-    border: none;
-    padding: 6px 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-</style>
+        .btn-pagar {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -134,116 +142,83 @@ input, select, textarea {
 <div class="card">
     <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟</h1>
 
-    <input id="nome_discord" placeholder="SEU NOME NO DISCORD">
+    <input type="text" id="nome_discord" placeholder="SEU NOME NO DISCORD">
 
     <select id="selecao_curso" onchange="carregarQuestoes()">
-        <option value="">ESCOLHA O CURSO</option>
-        <option value="IFB">IFB</option>
-        <option value="CLD">CLD</option>
-        <option value="CGE">CGE</option>
+        <option value="">-- ESCOLHA O CURSO --</option>
+        <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
+        <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
+        <option value="CGE">GUERRA ELETRÔNICA (CGE)</option>
     </select>
 
     <div id="questoes_container"></div>
 
-    <button class="btn-enviar">ENVIAR</button>
+    <button class="btn-enviar" onclick="enviarParaDiscord()">ENVIAR AO QG</button>
 </div>
 
-<!-- LOJA -->
 <div id="loja_patentes">
-<div class="loja-container">
+    <div class="loja-container">
 
-<h2>SHOP BGEex</h2>
+        <div id="lista_patentes">
+            <div class="item-patente">
+                <span>DEVELOPERS</span>
+                <span class="preco">R$ 200,00</span>
+                <button class="btn-pagar" onclick="gerarPix('Developers','200.00')">COMPRAR</button>
+            </div>
 
-<div class="item-patente">
-<span>VIP DIAMANTE</span>
-<button class="btn-pagar" onclick="gerarPix('VIP DIAMANTE','3.00')">COMPRAR</button>
-</div>
+            <div class="item-patente">
+                <span>VIP DIAMANTE</span>
+                <span class="preco">R$ 3,00</span>
+                <button class="btn-pagar" onclick="gerarPix('VIP','3.00')">COMPRAR</button>
+            </div>
+        </div>
 
-<div class="item-patente">
-<span>STAFF</span>
-<button class="btn-pagar" onclick="gerarPix('STAFF','25.00')">COMPRAR</button>
-</div>
-
-<button onclick="fecharLoja()" style="margin-top:15px;width:100%;padding:10px;">FECHAR</button>
-
-</div>
+    </div>
 </div>
 
 <script>
 
-/* LOJA */
-function abrirLoja(){
-    document.getElementById("loja_patentes").style.display = "block";
-}
+const WEBHOOK_COMPRA = "https://discord.com/api/webhooks/1493295789651394641/UskYLL3RN7gPhXGYRYkEyXCyG8wsqjS8UwFlzwecFNzpWxzhhKAdD1p3ll-_yPIiPiRo";
 
-function fecharLoja(){
-    document.getElementById("loja_patentes").style.display = "none";
-}
-
-/* ETAPA OBRIGATÓRIA */
 function gerarPix(produto, valor){
 
-    const discordUser = prompt("Adicione seu usuário do Discord!");
+    const discordUser = prompt("Digite seu usuário do Discord:");
 
-    if(!discordUser || discordUser.trim() === ""){
-        alert("Você precisa colocar seu usuário do Discord!");
+    if(!discordUser){
+        alert("Você precisa informar seu Discord!");
         return;
     }
 
-    alert(
-        "Usuário: " + discordUser +
-        "\nProduto: " + produto +
-        "\nValor: R$ " + valor
-    );
+    // 🔥 ENVIA PARA DISCORD
+    fetch(WEBHOOK_COMPRA, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            embeds: [{
+                title: "🛒 NOVA COMPRA DE PATENTE",
+                color: 16711680,
+                description:
+                    "**Usuário:** " + discordUser + "\n" +
+                    "**Patente:** " + produto + "\n" +
+                    "**Valor:** R$ " + valor
+            }]
+        })
+    });
+
+    alert("Compra registrada!\nUsuário: " + discordUser + "\nPatente: " + produto);
 }
 
-/* 🔥 QUESTÕES COMPLETAS */
-const banco = {
-IFB: [
-"Resposta Superior?",
-"Prefixo Recruta?",
-"Avisos Oficiais?",
-"Pode desrespeitar?",
-"O que é EB?",
-"Insubordinação?",
-"Saudação militar?",
-"Invasão de protocolo?",
-"Disciplina militar?",
-"Superior pode errar?"
-],
-
-CLD: [
-"O que é CLD?",
-"Função de líder?",
-"O que é comando?",
-"Insubordinação no CLD?",
-"Postura correta?",
-"Estratégia militar?",
-"Linha de frente?",
-"Ética militar?",
-"Gestão de risco?",
-"Protocolo de operação?"
-],
-
-CGE: [
-"Código QSL significa?",
-"Missão BGEex?",
-"O que é QAP?",
-"Por que sigilo é importante?",
-"Proteção de dados?",
-"Interceptação de comunicação?",
-"Triangulação de sinal?",
-"Cibersegurança básica?",
-"Conta hackeada o que fazer?",
-"Silêncio operacional?"
-]
+/* QUESTÕES */
+const banco={
+IFB:["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?"],
+CLD:["O que é CLD?","Função de Líder?"],
+CGE:["Código QSL?","Missão BGEex?"]
 };
 
 function carregarQuestoes(){
 let c=document.getElementById("selecao_curso").value;
 let box=document.getElementById("questoes_container");
 box.innerHTML="";
-
 if(banco[c]){
 banco[c].forEach((q,i)=>{
 box.innerHTML+=`
@@ -253,6 +228,10 @@ box.innerHTML+=`
 </div>`;
 });
 }
+}
+
+function abrirLoja(){
+document.getElementById("loja_patentes").style.display="block";
 }
 
 </script>
