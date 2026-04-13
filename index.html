@@ -1,6 +1,4 @@
-
 <script>
-    // ===== CONFIGURAÇÃO PIX =====
     const CHAVE_PIX = "DANILOBTU88@GMAIL.COM";
     const NOME_RECEBEDOR = "DANILO";
     const CIDADE_RECEBEDOR = "BOTUCATU";
@@ -26,6 +24,7 @@
     function crc16(payload) {
         let polinomio = 0x1021;
         let resultado = 0xFFFF;
+
         for (let i = 0; i < payload.length; i++) {
             resultado ^= (payload.charCodeAt(i) << 8);
             for (let j = 0; j < 8; j++) {
@@ -43,6 +42,7 @@
     function gerarPix(produto, valor) {
         document.getElementById('lista_patentes').style.display = 'none';
         document.getElementById('tela_pix').style.display = 'block';
+
         document.getElementById('patente_info').innerText =
             `${produto} | R$ ${parseFloat(valor).toFixed(2)}`;
 
@@ -69,28 +69,48 @@
     }
 
     function copiarPix() {
-        navigator.clipboard.writeText(
-            document.getElementById('pix_texto').innerText
-        );
-        alert("Código Pix copiado!");
+        const texto = document.getElementById('pix_texto').innerText;
+        navigator.clipboard.writeText(texto)
+            .then(() => alert("Código Pix copiado!"))
+            .catch(() => alert("Erro ao copiar o código."));
     }
 
-    // ===== SISTEMA DE PROVAS =====
     const banco = {
         IFB: [
-            "Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?",
-            "Pode desrespeitar?","O que é EB?","Insubordinação?",
-            "Saudação?","Invasão?","Disciplina?","Superior Errar?"
+            "Resposta Superior?",
+            "Prefixo Recruta?",
+            "Avisos Oficiais?",
+            "Pode desrespeitar?",
+            "O que é EB?",
+            "Insubordinação?",
+            "Saudação?",
+            "Invasão?",
+            "Disciplina?",
+            "Superior Errar?"
         ],
         CLD: [
-            "O que é CLD?","Função de Líder?","Comando?",
-            "Insubordinação?","Postura?","Estratégia?",
-            "Linha de frente?","Ética?","Risco?","Protocolo?"
+            "O que é CLD?",
+            "Função de Líder?",
+            "Comando?",
+            "Insubordinação?",
+            "Postura?",
+            "Estratégia?",
+            "Linha de frente?",
+            "Ética?",
+            "Risco?",
+            "Protocolo?"
         ],
         CGE: [
-            "Código QSL?","Missão BGEex?","Código QAP?",
-            "Sigilo?","Proteção?","Interceptação?",
-            "Triangulação?","Cibernética?","Hackeado?","Silêncio?"
+            "Código QSL?",
+            "Missão BGEex?",
+            "Código QAP?",
+            "Sigilo?",
+            "Proteção?",
+            "Interceptação?",
+            "Triangulação?",
+            "Cibernética?",
+            "Hackeado?",
+            "Silêncio?"
         ]
     };
 
@@ -101,16 +121,17 @@
 
         if (curso && banco[curso]) {
             banco[curso].forEach((q, i) => {
-                container.innerHTML += `
-                    <div class="questao">
-                        <p><b>${i + 1}. ${q}</b></p>
-                        <textarea id="res_${i}" rows="2" placeholder="Resposta..."></textarea>
-                    </div>`;
+                const div = document.createElement("div");
+                div.className = "questao";
+                div.innerHTML = `
+                    <p><b>${i + 1}. ${q}</b></p>
+                    <textarea id="res_${i}" rows="2" placeholder="Resposta..."></textarea>
+                `;
+                container.appendChild(div);
             });
         }
     }
 
-    // ===== WEBHOOKS DO DISCORD (JÁ CONFIGURADOS) =====
     const webhooks = {
         IFB: "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy",
         CLD: "https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv",
@@ -129,7 +150,7 @@
         let resps = "";
         for (let i = 0; i < 10; i++) {
             const r = document.getElementById('res_' + i);
-            resps += `**Q${i + 1}:** ${r ? r.value || "Vazio" : "Vazio"}\n`;
+            resps += `**Q${i + 1}:** ${r ? (r.value || "Vazio") : "Vazio"}\n`;
         }
 
         try {
@@ -139,10 +160,10 @@
                 body: JSON.stringify({
                     username: "Sistema BGEex",
                     embeds: [{
-                        title: `📡 Nova Prova - ${curso}`,
+                        title: `Nova Prova - ${curso}`,
                         color: 16711680,
                         fields: [
-                            { name: "👤 Nome no Discord", value: nome }
+                            { name: "Nome no Discord", value: nome }
                         ],
                         description: resps,
                         timestamp: new Date().toISOString()
@@ -151,14 +172,14 @@
             });
 
             if (response.ok) {
-                alert("✅ PROVA ENVIADA!");
+                alert("Prova enviada com sucesso!");
                 window.location.reload();
             } else {
-                alert("❌ Erro ao enviar a prova.");
+                alert("Erro ao enviar a prova.");
             }
         } catch (error) {
-            console.error("Erro:", error);
-            alert("❌ Falha na conexão com o Discord.");
+            console.error(error);
+            alert("Falha na conexão com o Discord.");
         }
     }
-            </script>
+                               </script>
