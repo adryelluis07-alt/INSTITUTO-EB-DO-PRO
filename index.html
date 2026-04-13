@@ -213,42 +213,67 @@ description:`Nome: ${nome}\n\n${res}`
 alert("Enviado!");
 }
 
-function gerarPix(produto,valor){
+function gerarPix(produto, valor) {
 
-document.getElementById("lista_patentes").style.display="none";
+    const chavePix = "DANILOBTU88@GMAIL.COM";
+    const nome = "DANILO";
+    const cidade = "BOTUCATU";
 
-const discord=prompt("Seu Discord:");
-if(!discord)return;
+    document.getElementById('lista_patentes').style.display = 'none';
+    document.getElementById('tela_pix').style.display = 'block';
 
-let pix=`PIX_${produto}_${valor}`;
+    document.getElementById('patente_info').innerText =
+        `${produto} | R$ ${parseFloat(valor).toFixed(2)}`;
 
-document.getElementById("loja_patentes").insertAdjacentHTML("beforeend",`
-<div style="color:white;margin-top:20px">
-<h3>Pagamento</h3>
-<p id="patente_info">${produto} | R$${valor}</p>
-<p>${pix}</p>
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${pix}">
-</div>
-`);
+    function emv(id, value) {
+        return id + value.length.toString().padStart(2, '0') + value;
+    }
 
-fetch("https://discord.com/api/webhooks/1493295789651394641/UskYLL3RN7gPhXGYRYkEyXCyG8wsqjS8UwFlzwecFNzpWxzhhKAdD1p3ll-_yPIiPiRo",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-username:"LOJA BGEex",
-embeds:[{
-title:"Compra de Patente",
-fields:[
-{name:"Discord",value:discord},
-{name:"Produto",value:produto},
-{name:"Valor",value:"R$"+valor}
-]
-}]
-})
-});
+    function crc16(payload) {
+        let polinomio = 0x1021;
+        let resultado = 0xFFFF;
 
+        for (let i = 0; i < payload.length; i++) {
+            resultado ^= (payload.charCodeAt(i) << 8);
+
+            for (let j = 0; j < 8; j++) {
+                if (resultado & 0x8000) {
+                    resultado = (resultado << 1) ^ polinomio;
+                } else {
+                    resultado <<= 1;
+                }
+                resultado &= 0xFFFF;
+            }
+        }
+
+        return resultado.toString(16).toUpperCase().padStart(4, '0');
+    }
+
+    let payload =
+        emv("00", "01") +
+        emv("01", "11") +
+        emv("26",
+            emv("00", "br.gov.bcb.pix") +
+            emv("01", chavePix)
+        ) +
+        emv("52", "0000") +
+        emv("53", "986") +
+        emv("54", parseFloat(valor).toFixed(2)) +
+        emv("58", "BR") +
+        emv("59", nome) +
+        emv("60", cidade) +
+        emv("62", emv("05", produto)) +
+        "6304";
+
+    const crc = crc16(payload);
+    const pixCode = payload + crc;
+
+    document.getElementById('pix_texto').innerText = pixCode;
+
+    document.getElementById('qr_pix').src =
+        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+        encodeURIComponent(pixCode);
 }
-
 </script>
 
 </body>
