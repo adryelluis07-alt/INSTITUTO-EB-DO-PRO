@@ -15,86 +15,83 @@
 
 body {
     background: var(--preto);
-    color: white;
-    font-family: Arial;
-    text-align: center;
-    margin: 0;
-    padding: 15px;
-}
-
-.btn-comprar-topo {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    color: var(--vermelho);
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 9999;
-}
-
-.card {
-    background: var(--cinza);
-    border: 2px solid var(--vermelho);
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 60px auto;
-}
-
-input,select,textarea {
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    background:#222;
-    color:#fff;
-}
-
-.questao {
-    text-align:left;
-    background:#111;
-    padding:10px;
-    margin:10px 0;
-    border-left:4px solid red;
-}
-
-.btn-enviar {
-    background:red;
     color:white;
+    font-family:Arial;
+    text-align:center;
+    margin:0;
     padding:15px;
-    border:none;
-    width:100%;
+}
+
+.btn-comprar-topo{
+    position:fixed;
+    top:15px;
+    right:15px;
+    color:red;
+    font-weight:bold;
     cursor:pointer;
 }
 
-#loja_patentes {
+.card{
+    background:#1a1a1a;
+    border:2px solid red;
+    max-width:600px;
+    margin:60px auto;
+    padding:20px;
+    border-radius:10px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    background:#222;
+    color:white;
+}
+
+.questao{
+    text-align:left;
+    background:#111;
+    padding:10px;
+    margin:5px 0;
+    border-left:4px solid red;
+}
+
+.btn-enviar{
+    background:red;
+    color:white;
+    padding:15px;
+    width:100%;
+    border:none;
+    cursor:pointer;
+}
+
+#loja_patentes{
     display:none;
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.95);
+    background:black;
     overflow:auto;
 }
 
-.loja-container {
+.loja-container{
     max-width:600px;
     margin:auto;
     background:#1a1a1a;
     padding:20px;
-    border:2px solid gold;
 }
 
-.item-patente {
+.item-patente{
     display:flex;
     justify-content:space-between;
     background:#222;
     margin:5px 0;
     padding:10px;
-    border-left:3px solid gold;
 }
 
-.btn-pagar {
+.btn-pagar{
     background:lime;
     border:none;
     cursor:pointer;
@@ -107,12 +104,13 @@ input,select,textarea {
 <div class="btn-comprar-topo" onclick="abrirLoja()">🛒 COMPRAR PATENTE</div>
 
 <div class="card">
-<h1>MENTE GENIAL</h1>
+
+<h2>SISTEMA BGEex</h2>
 
 <input id="nome_discord" placeholder="Seu Discord">
 
 <select id="selecao_curso" onchange="carregarQuestoes()">
-<option value="">Escolha o curso</option>
+<option value="">Curso</option>
 <option value="IFB">IFB</option>
 <option value="CLD">CLD</option>
 <option value="CGE">CGE</option>
@@ -121,13 +119,14 @@ input,select,textarea {
 <div id="questoes_container"></div>
 
 <button class="btn-enviar" onclick="enviarParaDiscord()">ENVIAR AO QG</button>
+
 </div>
 
 <!-- LOJA -->
 <div id="loja_patentes">
 <div class="loja-container">
 
-<h2 style="color:gold">SHOP BGEex</h2>
+<h3 style="color:gold">SHOP BGEex</h3>
 
 <div id="lista_patentes">
 
@@ -147,26 +146,24 @@ input,select,textarea {
 </div>
 
 <button onclick="fecharLoja()">FECHAR</button>
+
 </div>
 </div>
 
 <script>
 
-// WEBHOOKS
-const webhooks = {
+const webhooks={
 IFB:"https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy",
 CLD:"https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv",
 CGE:"https://discord.com/api/webhooks/1492933590961619167/-TMRlkEmAE63JBQVk2z6qKts5eRpHoIZR89ufMhhJ9ZMlx8sh36Mw0lppYpRX4AZHtcz"
 };
 
-// QUESTÕES
-const banco = {
+const banco={
 IFB:["Disciplina?","Hierarquia?","Ordem?","Respeito?","Missão?"],
 CLD:["Liderança?","Estratégia?","Equipe?","Decisão?","Comando?"],
 CGE:["QAP?","QSL?","Sigilo?","Ciber?","Comunicação?"]
 };
 
-// LOJA
 function abrirLoja(){
 document.getElementById("loja_patentes").style.display="block";
 }
@@ -175,20 +172,19 @@ function fecharLoja(){
 document.getElementById("loja_patentes").style.display="none";
 }
 
-// QUESTÕES
 function carregarQuestoes(){
 let c=document.getElementById("selecao_curso").value;
 let box=document.getElementById("questoes_container");
 box.innerHTML="";
 if(banco[c]){
-banco[c].forEach((q,i)=>{
+banco[c].forEach(q=>{
 box.innerHTML+=`<div class="questao"><p>${q}</p><textarea></textarea></div>`;
 });
 }
 }
 
-// ENVIAR
 async function enviarParaDiscord(){
+
 let nome=document.getElementById("nome_discord").value;
 let curso=document.getElementById("selecao_curso").value;
 
@@ -198,11 +194,9 @@ return;
 }
 
 let res="";
-
-for(let i=0;i<10;i++){
-let r=document.querySelectorAll("textarea")[i];
-if(r)res+=`Q${i+1}: ${r.value}\n`;
-}
+document.querySelectorAll("textarea").forEach((t,i)=>{
+res+=`Q${i+1}: ${t.value}\n`;
+});
 
 await fetch(webhooks[curso],{
 method:"POST",
@@ -210,7 +204,7 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 username:"BGEex",
 embeds:[{
-title:"Prova",
+title:"Prova enviada",
 description:`Nome: ${nome}\n\n${res}`
 }]
 })
@@ -219,12 +213,40 @@ description:`Nome: ${nome}\n\n${res}`
 alert("Enviado!");
 }
 
-// PIX SIMPLES
 function gerarPix(produto,valor){
-let discord=prompt("Seu Discord:");
+
+document.getElementById("lista_patentes").style.display="none";
+
+const discord=prompt("Seu Discord:");
 if(!discord)return;
 
-alert(`Produto: ${produto}\nValor: R$${valor}\nDiscord: ${discord}`);
+let pix=`PIX_${produto}_${valor}`;
+
+document.getElementById("loja_patentes").insertAdjacentHTML("beforeend",`
+<div style="color:white;margin-top:20px">
+<h3>Pagamento</h3>
+<p id="patente_info">${produto} | R$${valor}</p>
+<p>${pix}</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${pix}">
+</div>
+`);
+
+fetch("https://discord.com/api/webhooks/1493295789651394641/UskYLL3RN7gPhXGYRYkEyXCyG8wsqjS8UwFlzwecFNzpWxzhhKAdD1p3ll-_yPIiPiRo",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:"LOJA BGEex",
+embeds:[{
+title:"Compra de Patente",
+fields:[
+{name:"Discord",value:discord},
+{name:"Produto",value:produto},
+{name:"Valor",value:"R$"+valor}
+]
+}]
+})
+});
+
 }
 
 </script>
