@@ -242,10 +242,45 @@ const box=document.getElementById("questoes_container");
 box.innerHTML="";
 if(!curso)return;
 
-const banco={
-IFB:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"],
-CLD:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"],
-CGE:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"]
+const banco = {
+IFB: [
+"O que significa hierarquia militar?",
+"O que é disciplina militar?",
+"O que é insubordinação?",
+"O que significa QAP?",
+"O que significa QSL?",
+"O que é um superior hierárquico?",
+"O que fazer ao receber uma ordem?",
+"O que é respeito militar?",
+"O que é conduta correta?",
+"O que é treinamento básico?"
+],
+
+CLD: [
+"O que é liderança?",
+"Como um líder deve agir?",
+"O que é comando?",
+"O que é estratégia?",
+"O que é disciplina de grupo?",
+"O que fazer em conflito de equipe?",
+"O que é responsabilidade?",
+"O que é tomada de decisão?",
+"O que é hierarquia em liderança?",
+"O que é postura de líder?"
+],
+
+CGE: [
+"O que significa QAP em operação?",
+"O que significa QSL em comunicação?",
+"O que é segurança de informação?",
+"O que é sigilo militar?",
+"O que é interceptação?",
+"O que é proteção de dados?",
+"O que é comunicação criptografada?",
+"O que é ataque cibernético?",
+"O que é defesa digital?",
+"O que é protocolo de segurança?"
+]
 };
 
 banco[curso].forEach((q,i)=>{
