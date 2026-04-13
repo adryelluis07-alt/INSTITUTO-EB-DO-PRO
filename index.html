@@ -7,129 +7,163 @@
 
 <style>
 :root {
-    --vermelho: #ff0000;
-    --preto: #0a0a0a;
-    --cinza: #1a1a1a;
-    --dourado: #ffd700;
+    --vermelho:#ff0000;
+    --preto:#0a0a0a;
+    --cinza:#1a1a1a;
+    --dourado:#ffd700;
 }
 
-body {
-    background: var(--preto);
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 15px;
-    margin: 0;
+/* BASE */
+body{
+background:var(--preto);
+color:white;
+font-family:Arial;
+margin:0;
+padding:15px;
+text-align:center;
 }
 
-/* 🔵 BARRA DISCORD (NOVA) */
-.discord-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #111;
-    color: white;
-    font-size: 11px;
-    padding: 6px;
-    z-index: 99999;
-    border-bottom: 2px solid #5865F2;
+/* 🔵 BARRA DISCORD NEON */
+.discord-bar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#0d0d0d;
+color:white;
+font-size:11px;
+padding:6px;
+z-index:99999;
+border-bottom:2px solid #5865F2;
+box-shadow:0 0 10px #5865F2;
 }
 
-.discord-bar a {
-    color: #00ffcc;
-    margin: 0 5px;
-    text-decoration: none;
+.discord-links{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-top:5px;
+}
+
+.discord-links span{
+padding:4px 8px;
+border:1px solid #5865F2;
+border-radius:6px;
+background:#111;
+transition:0.3s;
+}
+
+.discord-links span:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px #5865F2;
+}
+
+.discord-links button{
+background:transparent;
+border:1px solid #00ffcc;
+color:#00ffcc;
+padding:4px 8px;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.discord-links button:hover{
+background:#00ffcc;
+color:black;
+transform:scale(1.1);
+}
+
+.verified{
+color:#00ffcc;
+font-weight:bold;
 }
 
 /* BOTÃO LOJA */
-.btn-comprar-topo {
-    position: fixed;
-    top: 40px;
-    right: 15px;
-    color: var(--vermelho);
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 9999;
+.btn-comprar-topo{
+position:fixed;
+top:60px;
+right:15px;
+color:var(--vermelho);
+font-weight:bold;
+cursor:pointer;
+z-index:9999;
 }
 
 /* CARD */
-.card {
-    background: var(--cinza);
-    border: 2px solid var(--vermelho);
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 80px auto 20px;
+.card{
+background:var(--cinza);
+border:2px solid var(--vermelho);
+border-radius:10px;
+padding:20px;
+max-width:600px;
+margin:90px auto 20px;
 }
 
 /* LOJA */
-#loja_patentes {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    z-index: 10000;
-    overflow-y: auto;
-    padding: 20px;
+#loja_patentes{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:10000;
+overflow-y:auto;
+padding:20px;
 }
 
-.loja-container {
-    max-width: 550px;
-    margin: auto;
-    background: var(--cinza);
-    border: 2px solid var(--dourado);
-    padding: 20px;
-    border-radius: 15px;
+.loja-container{
+max-width:550px;
+margin:auto;
+background:var(--cinza);
+border:2px solid var(--dourado);
+padding:20px;
+border-radius:15px;
 }
 
-.item-patente {
-    background: #222;
-    margin: 8px 0;
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    border-left: 4px solid var(--dourado);
+.item-patente{
+background:#222;
+margin:8px 0;
+padding:10px;
+display:flex;
+justify-content:space-between;
+border-left:4px solid var(--dourado);
 }
 
-.btn-pagar {
-    background: #0f0;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
+.btn-pagar{
+background:#0f0;
+border:none;
+cursor:pointer;
+font-weight:bold;
 }
 
-/* MODAL NOVO */
-#modal_discord {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 999999;
-    text-align: center;
-    padding-top: 120px;
+/* MODAL */
+#modal_discord{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+z-index:999999;
+padding-top:120px;
+text-align:center;
 }
 
-.modal-box {
-    background: #1a1a1a;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid #5865F2;
+.modal-box{
+background:#1a1a1a;
+max-width:400px;
+margin:auto;
+padding:20px;
+border-radius:10px;
+border:2px solid #5865F2;
 }
 
-.modal-box input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    background: #222;
-    color: white;
-    border: none;
+.modal-box input{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#222;
+color:white;
+border:none;
 }
 </style>
 </head>
@@ -138,10 +172,21 @@ body {
 
 <!-- 🔵 BARRA DISCORD -->
 <div class="discord-bar">
-<b>Servers:</b>
-<a href="https://discord.gg/SW2kctdRd" target="_blank">1</a> |
-<a href="https://discord.gg/Eys2zFNAK" target="_blank">2</a> |
-<a href="https://discord.gg/jfqgMGbJm" target="_blank">3</a>
+
+<b>Servers do Discord</b>
+
+<div class="discord-links">
+
+<span class="verified">✔ INSTITUTO EB</span>
+<button onclick="copiar('https://discord.gg/SW2kctdRd')">COPIAR</button>
+
+<span class="verified">✔ CENTRO DE TREINAMENTO</span>
+<button onclick="copiar('https://discord.gg/Eys2zFNAK')">COPIAR</button>
+
+<span class="verified">✔ BGEex OFICIAL</span>
+<button onclick="copiar('https://discord.gg/jfqgMGbJm')">COPIAR</button>
+
+</div>
 </div>
 
 <!-- BOTÃO -->
@@ -149,6 +194,7 @@ body {
 
 <!-- PROVAS -->
 <div class="card">
+
 <h1>MENTE GENIAL</h1>
 
 <input id="nome_discord" placeholder="SEU NOME NO DISCORD">
@@ -163,34 +209,38 @@ body {
 <div id="questoes_container"></div>
 
 <button onclick="enviarParaDiscord()">ENVIAR</button>
+
 </div>
 
 <!-- LOJA -->
 <div id="loja_patentes">
+
 <div class="loja-container">
 
 <h2>SHOP BGEex</h2>
 
 <div class="item-patente">
-<span>VIP</span><span>R$3</span>
+<span>VIP</span>
 <button class="btn-pagar" onclick="gerarPix('VIP','3')">COMPRAR</button>
 </div>
 
 <div class="item-patente">
-<span>STAFF</span><span>R$25</span>
+<span>STAFF</span>
 <button class="btn-pagar" onclick="gerarPix('STAFF','25')">COMPRAR</button>
 </div>
 
 </div>
+
 </div>
 
-<!-- MODAL DISCORD -->
+<!-- MODAL -->
 <div id="modal_discord">
+
 <div class="modal-box">
 
-<h2 style="color:#5865F2;">⚠️ ENTRE NO DISCORD</h2>
+<h3 style="color:#5865F2;">⚠ DISCORD OBRIGATÓRIO</h3>
 
-<p>Para comprar, coloque seu usuário do Discord:</p>
+<p>Digite seu usuário do Discord:</p>
 
 <input id="discord_user" placeholder="Ex: Adryel0416">
 
@@ -199,8 +249,8 @@ body {
 <button onclick="fecharModal()" style="
 background:#5865F2;
 color:white;
-padding:10px;
 width:100%;
+padding:10px;
 border:none;
 cursor:pointer;
 ">
@@ -208,9 +258,16 @@ ENTENDI
 </button>
 
 </div>
+
 </div>
 
 <script>
+
+/* COPIAR LINK */
+function copiar(link){
+navigator.clipboard.writeText(link)
+.then(()=>alert("Link copiado!"));
+}
 
 /* MODAL */
 function abrirModal(){
@@ -218,10 +275,10 @@ document.getElementById("modal_discord").style.display="block";
 }
 
 function fecharModal(){
-let nome=document.getElementById("discord_user").value;
+const nome=document.getElementById("discord_user").value;
 
 if(!nome){
-alert("Digite seu usuário do Discord!");
+alert("Digite seu usuário!");
 return;
 }
 
@@ -229,8 +286,8 @@ document.getElementById("modal_discord").style.display="none";
 }
 
 /* PIX */
-function gerarPix(produto,valor){
-alert("Gerando PIX para "+produto+" R$"+valor);
+function gerarPix(p,v){
+alert(p+" R$"+v);
 }
 
 /* QUESTÕES */
@@ -246,7 +303,8 @@ let box=document.getElementById("questoes_container");
 box.innerHTML="";
 if(banco[c]){
 banco[c].forEach((q,i)=>{
-box.innerHTML+=`<div class="questao">
+box.innerHTML+=`
+<div class="questao">
 <p>${i+1}. ${q}</p>
 <textarea></textarea>
 </div>`;
@@ -261,4 +319,4 @@ alert("Enviado!");
 </script>
 
 </body>
-</html>
+    </html>
