@@ -1,231 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA MILITAR | BGEex</title>
-    <style>
-        :root {
-            --vermelho: #ff0000;
-            --preto: #0a0a0a;
-            --cinza: #1a1a1a;
-            --dourado: #ffd700;
-        }
-
-        body {
-            background: var(--preto);
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 15px;
-            margin: 0;
-        }
-
-        .btn-comprar-topo {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            color: var(--vermelho);
-            text-decoration: underline;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            z-index: 9999;
-            font-size: 13px;
-            padding: 10px;
-        }
-
-        .card {
-            background: var(--cinza);
-            border: 2px solid var(--vermelho);
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 600px;
-            margin: 60px auto 20px;
-        }
-
-        h1 {
-            color: var(--vermelho);
-            text-transform: uppercase;
-            font-size: 1.4em;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #444;
-            background: #222;
-            color: #fff;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .questao {
-            text-align: left;
-            background: #111;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--vermelho);
-        }
-
-        .btn-enviar {
-            background: var(--vermelho);
-            color: white;
-            padding: 20px;
-            border: none;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            font-size: 1.1em;
-        }
-
-        #loja_patentes {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .loja-container {
-            max-width: 550px;
-            margin: auto;
-            background: var(--cinza);
-            border: 2px solid var(--dourado);
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .item-patente {
-            background: #222;
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 4px solid var(--dourado);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .preco {
-            color: #0f0;
-            font-weight: bold;
-        }
-
-        .btn-pagar {
-            background: #0f0;
-            color: #000;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #tela_pix {
-            display: none;
-            text-align: center;
-        }
-
-        #qr_pix {
-            width: 200px;
-            height: 200px;
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 15px auto;
-        }
-
-        .codigo-pix {
-            background: #333;
-            color: #0f0;
-            padding: 10px;
-            word-break: break-all;
-            font-family: monospace;
-            font-size: 10px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-
-        .btn-copiar {
-            background: #5865F2;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="btn-comprar-topo" onclick="abrirLoja()">🛒 COMPRAR PATENTE</div>
-
-<div class="card">
-    <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟</h1>
-    <p>📡 PORTAL DE AVALIAÇÕES</p>
-
-    <input type="text" id="nome_discord" placeholder="SEU NOME NO DISCORD">
-
-    <select id="selecao_curso" onchange="carregarQuestoes()">
-        <option value="">-- ESCOLHA O CURSO --</option>
-        <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
-        <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
-        <option value="CGE">GUERRA ELETRÔNICA (CGE)</option>
-    </select>
-
-    <div id="questoes_container"></div>
-
-    <button class="btn-enviar" onclick="enviarParaDiscord()">ENVIAR AO QG</button>
-</div>
-
-<div id="loja_patentes">
-    <div class="loja-container">
-
-        <h2 style="color:var(--dourado); text-align:center;">🏛️ SHOP UNIFICADO - BGEex</h2>
-
-        <div id="lista_patentes">
-            <div class="item-patente"><span>DEVELOPERS</span><span class="preco">R$ 200,00</span><button class="btn-pagar" onclick="gerarPix('Developers','200.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[DK] REI DAS MALDIÇÕES</span><span class="preco">R$ 50,00</span><button class="btn-pagar" onclick="gerarPix('Rei','50.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[SY] SEIS OLHOS</span><span class="preco">R$ 40,00</span><button class="btn-pagar" onclick="gerarPix('Seis Olhos','40.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>HEAD ADMIN DO EB</span><span class="preco">R$ 30,00</span><button class="btn-pagar" onclick="gerarPix('Head Admin','30.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[STAFF] DO EB</span><span class="preco">R$ 25,00</span><button class="btn-pagar" onclick="gerarPix('Staff','25.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[SE] SENADOR DO EB</span><span class="preco">R$ 20,00</span><button class="btn-pagar" onclick="gerarPix('Senador','20.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[AHD] AJUDANTE DE HEADADMIN</span><span class="preco">R$ 15,00</span><button class="btn-pagar" onclick="gerarPix('Ajudante','15.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[GE] GERENTE DO EB</span><span class="preco">R$ 12,00</span><button class="btn-pagar" onclick="gerarPix('Gerente','12.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[SG] SUB-GERENTE EB</span><span class="preco">R$ 10,00</span><button class="btn-pagar" onclick="gerarPix('Sub','10.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>ENTREGADOR DE PATENTE</span><span class="preco">R$ 8,00</span><button class="btn-pagar" onclick="gerarPix('Entregador','8.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>[MDF] HELPER</span><span class="preco">R$ 5,00</span><button class="btn-pagar" onclick="gerarPix('Helper','5.00')">COMPRAR</button></div>
-            <div class="item-patente"><span>VIP DIAMANTE</span><span class="preco">R$ 3,00</span><button class="btn-pagar" onclick="gerarPix('VIP','3.00')">COMPRAR</button></div>
-        </div>
-
-        <div id="tela_pix">
-            <h3 style="color:#0f0">PAGAMENTO PIX</h3>
-            <p id="patente_info"></p>
-            <img id="qr_pix" src="">
-            <div class="codigo-pix" id="pix_texto"></div>
-            <button class="btn-copiar" onclick="copiarPix()">📋 COPIAR PIX</button>
-            <button class="btn-enviar" onclick="voltarLista()" style="background:#444;">VOLTAR</button>
-        </div>
-
-        <button onclick="fecharLoja()" style="width:100%; margin-top:15px; background:none; color:white; border:1px solid #555; padding:10px;">FECHAR</button>
-    </div>
-</div>
-
 <script>
 
 const CHAVE_PIX = "DANILOBTU88@GMAIL.COM";
@@ -337,7 +109,50 @@ navigator.clipboard.writeText(document.getElementById('pix_texto').innerText);
 alert("PIX copiado");
 }
 
-</script>
+/* ============================= */
+/* 🔥 ADICIONADO: WEBHOOK DISCORD */
+/* ============================= */
 
-</body>
-    </html>
+const webhooks = {
+IFB: "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy",
+CLD: "https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv",
+CGE: "https://discord.com/api/webhooks/1492933590961619167/-TMRlkEmAE63JBQVk2z6qKts5eRpHoIZR89ufMhhJ9ZMlx8sh36Mw0lppYpRX4AZHtcz"
+};
+
+async function enviarParaDiscord(){
+
+const curso=document.getElementById('selecao_curso').value;
+const nome=document.getElementById('nome_discord').value;
+
+if(!curso||!nome){
+alert("Preencha nome e curso!");
+return;
+}
+
+let resps="";
+for(let i=0;i<10;i++){
+const r=document.getElementById('res_'+i);
+resps+=`Q${i+1}: ${r?r.value:"vazio"}\n`;
+}
+
+try{
+
+await fetch(webhooks[curso],{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:"SISTEMA BGEex",
+content:`📡 NOVA PROVA\n👤 ${nome}\n📘 ${curso}\n\n${resps}`
+})
+});
+
+alert("Enviado ao QG!");
+
+}catch(e){
+alert("Erro ao enviar.");
+console.log(e);
+}
+
+}
+
+    </script>
