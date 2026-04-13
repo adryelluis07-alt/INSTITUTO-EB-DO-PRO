@@ -1,7 +1,9 @@
+<!-- ================= SCRIPT PRINCIPAL ================= -->
 <script>
+    // ===== CONFIGURAÇÃO PIX =====
     const CHAVE_PIX = "DANILOBTU88@GMAIL.COM";
     const NOME_RECEBEDOR = "DANILO";
-    const CIDADE_RECEBEDOR = "BOTUCATU"; // Apenas a cidade, sem o estado
+    const CIDADE_RECEBEDOR = "BOTUCATU";
 
     function abrirLoja() {
         document.getElementById('loja_patentes').style.display = 'block';
@@ -9,24 +11,25 @@
 
     function fecharLoja() {
         document.getElementById('loja_patentes').style.display = 'none';
+        voltarLista();
+    }
+
+    function voltarLista() {
         document.getElementById('tela_pix').style.display = 'none';
         document.getElementById('lista_patentes').style.display = 'block';
     }
 
-    // Função para adicionar campos no padrão EMV
     function emv(id, value) {
         return id + value.length.toString().padStart(2, '0') + value;
     }
 
-    // Função para calcular o CRC16 (obrigatório no Pix)
     function crc16(payload) {
         let polinomio = 0x1021;
         let resultado = 0xFFFF;
-
         for (let i = 0; i < payload.length; i++) {
             resultado ^= (payload.charCodeAt(i) << 8);
             for (let j = 0; j < 8; j++) {
-                if ((resultado & 0x8000) !== 0) {
+                if (resultado & 0x8000) {
                     resultado = (resultado << 1) ^ polinomio;
                 } else {
                     resultado <<= 1;
@@ -37,63 +40,58 @@
         return resultado.toString(16).toUpperCase().padStart(4, '0');
     }
 
-    // Função principal para gerar o Pix e o QR Code
-    function gerarPix(nomeProduto, valor) {
+    function gerarPix(produto, valor) {
         document.getElementById('lista_patentes').style.display = 'none';
         document.getElementById('tela_pix').style.display = 'block';
-
         document.getElementById('patente_info').innerText =
-            `${nomeProduto} | R$ ${valor}`;
+            `${produto} | R$ ${parseFloat(valor).toFixed(2)}`;
 
-        const valorFormatado = parseFloat(valor).toFixed(2);
-
-        // Montagem do payload Pix
         let payload =
-            emv("00", "01") + // Payload Format Indicator
-            emv("01", "11") + // Point of Initiation Method (dinâmico)
-            emv("26",
-                emv("00", "br.gov.bcb.pix") +
-                emv("01", CHAVE_PIX)
-            ) +
-            emv("52", "0000") + // Merchant Category Code
-            emv("53", "986") +  // Moeda (BRL)
-            emv("54", valorFormatado) +
+            emv("00", "01") +
+            emv("01", "11") +
+            emv("26", emv("00", "br.gov.bcb.pix") + emv("01", CHAVE_PIX)) +
+            emv("52", "0000") +
+            emv("53", "986") +
+            emv("54", parseFloat(valor).toFixed(2)) +
             emv("58", "BR") +
-            emv("59", NOME_RECEBEDOR.toUpperCase()) +
-            emv("60", CIDADE_RECEBEDOR.toUpperCase()) +
-            emv("62",
-                emv("05", "***") // Identificador da transação
-            ) +
-            "6304"; // Campo do CRC (sem o valor ainda)
+            emv("59", NOME_RECEBEDOR) +
+            emv("60", CIDADE_RECEBEDOR) +
+            emv("62", emv("05", "BGEEX")) +
+            "6304";
 
-        // Cálculo do CRC16
         const crc = crc16(payload);
         const pixCode = payload + crc;
 
-        // Exibir o código Pix
         document.getElementById('pix_texto').innerText = pixCode;
-
-        // Gerar o QR Code automaticamente
         document.getElementById('qr_pix').src =
             "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
             encodeURIComponent(pixCode);
     }
 
-    // Copiar código Pix
     function copiarPix() {
-        const texto = document.getElementById('pix_texto').innerText;
-        navigator.clipboard.writeText(texto).then(() => {
-            alert("✅ Código Pix copiado com sucesso!");
-        }).catch(() => {
-            alert("❌ Não foi possível copiar o código.");
-        });
+        navigator.clipboard.writeText(
+            document.getElementById('pix_texto').innerText
+        );
+        alert("Código Pix copiado!");
     }
 
-    // ================== QUESTÕES ==================
+    // ===== SISTEMA DE PROVAS =====
     const banco = {
-        IFB: ["Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?","Pode desrespeitar?","O que é EB?","Insubordinação?","Saudação?","Invasão?","Disciplina?","Superior Errar?"],
-        CLD: ["O que é CLD?","Função de Líder?","Comando?","Insubordinação?","Postura?","Estratégia?","Linha de frente?","Ética?","Risco?","Protocolo?"],
-        CGE: ["Código QSL?","Missão BGEex?","Código QAP?","Sigilo?","Proteção?","Interceptação?","Triangulação?","Cibernética?","Hackeado?","Silêncio?"]
+        IFB: [
+            "Resposta Superior?","Prefixo Recruta?","Avisos Oficiais?",
+            "Pode desrespeitar?","O que é EB?","Insubordinação?",
+            "Saudação?","Invasão?","Disciplina?","Superior Errar?"
+        ],
+        CLD: [
+            "O que é CLD?","Função de Líder?","Comando?",
+            "Insubordinação?","Postura?","Estratégia?",
+            "Linha de frente?","Ética?","Risco?","Protocolo?"
+        ],
+        CGE: [
+            "Código QSL?","Missão BGEex?","Código QAP?",
+            "Sigilo?","Proteção?","Interceptação?",
+            "Triangulação?","Cibernética?","Hackeado?","Silêncio?"
+        ]
     };
 
     function carregarQuestoes() {
@@ -112,11 +110,11 @@
         }
     }
 
-    // ================== DISCORD ==================
+    // ===== WEBHOOKS DO DISCORD (JÁ CONFIGURADOS) =====
     const webhooks = {
-        IFB: "SEU_WEBHOOK_IFB_AQUI",
-        CLD: "SEU_WEBHOOK_CLD_AQUI",
-        CGE: "SEU_WEBHOOK_CGE_AQUI"
+        IFB: "https://discord.com/api/webhooks/1492932993101201600/r6AYp1XhAOHGTj5N5OqGpzLHCFjE1d9TodG8G6z9A0wZlqKISbeIPK5gB9K8XDeHvxhy",
+        CLD: "https://discord.com/api/webhooks/1492933366775812249/RT1OYt3EIS2KX14jZlw45yjN7bDMz1lrg7sAH3VfO2rpolKVOQZvDLn6mIwzWV6VE9Uv",
+        CGE: "https://discord.com/api/webhooks/1492933590961619167/-TMRlkEmAE63JBQVk2z6qKts5eRpHoIZR89ufMhhJ9ZMlx8sh36Mw0lppYpRX4AZHtcz"
     };
 
     async function enviarParaDiscord() {
@@ -135,7 +133,7 @@
         }
 
         try {
-            await fetch(webhooks[curso], {
+            const response = await fetch(webhooks[curso], {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -144,7 +142,7 @@
                         title: `📡 Nova Prova - ${curso}`,
                         color: 16711680,
                         fields: [
-                            { name: "👤 Nome", value: nome }
+                            { name: "👤 Nome no Discord", value: nome }
                         ],
                         description: resps,
                         timestamp: new Date().toISOString()
@@ -152,11 +150,15 @@
                 })
             });
 
-            alert("✅ PROVA ENVIADA COM SUCESSO!");
-            window.location.reload();
+            if (response.ok) {
+                alert("✅ PROVA ENVIADA!");
+                window.location.reload();
+            } else {
+                alert("❌ Erro ao enviar a prova.");
+            }
         } catch (error) {
-            alert("❌ Erro ao enviar para o Discord.");
-            console.error(error);
+            console.error("Erro:", error);
+            alert("❌ Falha na conexão com o Discord.");
         }
     }
-</script>
+            </script>
