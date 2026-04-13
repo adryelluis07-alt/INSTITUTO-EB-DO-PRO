@@ -1,202 +1,255 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SISTEMA MILITAR | BGEex</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA MILITAR | BGEex</title>
+    <style>
+        :root {
+            --vermelho: #ff0000;
+            --preto: #0a0a0a;
+            --cinza: #1a1a1a;
+            --dourado: #ffd700;
+        }
 
-<style>
-:root {
-    --vermelho:#ff0000;
-    --preto:#0a0a0a;
-    --cinza:#1a1a1a;
-    --dourado:#ffd700;
-}
+        body {
+            background: var(--preto);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 15px;
+            margin: 0;
+        }
 
-body {
-    background: var(--preto);
-    color:white;
-    font-family: Arial;
-    text-align:center;
-    padding:15px;
-    margin:0;
-}
+        .btn-comprar-topo {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            color: var(--vermelho);
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            z-index: 9999;
+            font-size: 13px;
+            padding: 10px;
+        }
 
-.btn-comprar-topo{
-    position:fixed;
-    top:15px;
-    right:15px;
-    color:var(--vermelho);
-    font-weight:bold;
-    cursor:pointer;
-    z-index:9999;
-}
+        .card {
+            background: var(--cinza);
+            border: 2px solid var(--vermelho);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 60px auto 20px;
+        }
 
-.card{
-    background:var(--cinza);
-    border:2px solid var(--vermelho);
-    border-radius:10px;
-    padding:20px;
-    max-width:600px;
-    margin:60px auto 20px;
-}
+        h1 {
+            color: var(--vermelho);
+            text-transform: uppercase;
+            font-size: 1.4em;
+        }
 
-h1{color:var(--vermelho)}
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
 
-input,select,textarea{
-    width:100%;
-    padding:15px;
-    margin:10px 0;
-    background:#222;
-    color:white;
-}
+        .questao {
+            text-align: left;
+            background: #111;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--vermelho);
+        }
 
-.questao{
-    text-align:left;
-    background:#111;
-    padding:15px;
-    margin-bottom:10px;
-    border-left:4px solid var(--vermelho);
-}
+        .btn-enviar {
+            background: var(--vermelho);
+            color: white;
+            padding: 20px;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
 
-.btn-enviar{
-    background:var(--vermelho);
-    color:white;
-    padding:20px;
-    border:none;
-    width:100%;
-}
+        #loja_patentes {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-#loja_patentes{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:black;
-    overflow:auto;
-    padding:20px;
-}
+        .loja-container {
+            max-width: 550px;
+            margin: auto;
+            background: var(--cinza);
+            border: 2px solid var(--dourado);
+            padding: 20px;
+            border-radius: 15px;
+        }
 
-.loja-container{
-    max-width:600px;
-    margin:auto;
-    background:var(--cinza);
-    border:2px solid var(--dourado);
-    padding:20px;
-}
+        .item-patente {
+            background: #222;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--dourado);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
 
-.item-patente{
-    background:#222;
-    margin:8px 0;
-    padding:10px;
-    display:flex;
-    justify-content:space-between;
-}
+        .preco {
+            color: #0f0;
+            font-weight: bold;
+        }
 
-.preco{color:#0f0}
+        .btn-pagar {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-.btn-pagar{
-    background:#0f0;
-    border:none;
-    cursor:pointer;
-}
+        #tela_pix {
+            display: none;
+            text-align: center;
+        }
 
-#tela_pix{display:none}
+        #qr_pix {
+            width: 200px;
+            height: 200px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px auto;
+        }
 
-.codigo-pix{
-    background:#333;
-    color:#0f0;
-    padding:10px;
-    word-break:break-all;
-}
-</style>
+        .codigo-pix {
+            background: #333;
+            color: #0f0;
+            padding: 10px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .btn-copiar {
+            background: #5865F2;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="btn-comprar-topo" onclick="abrirLoja()">COMPRAR PATENTE</div>
+<div class="btn-comprar-topo" onclick="abrirLoja()">🛒 COMPRAR PATENTE</div>
 
 <div class="card">
-<h1>BGEex</h1>
+    <h1>𝗠𝗘𝗡𝗧𝗘⠀𝗚𝗘𝗡𝗜𝗔𝗟</h1>
+    <p>📡 PORTAL DE AVALIAÇÕES</p>
 
-<input id="nome_discord" placeholder="Seu Discord">
+    <input type="text" id="nome_discord" placeholder="SEU NOME NO DISCORD">
 
-<select id="selecao_curso" onchange="carregarQuestoes()">
-<option value="">ESCOLHA O CURSO</option>
-<option value="IFB">IFB</option>
-<option value="CLD">CLD</option>
-<option value="CGE">CGE</option>
-</select>
+    <select id="selecao_curso" onchange="carregarQuestoes()">
+        <option value="">-- ESCOLHA O CURSO --</option>
+        <option value="IFB">INSTRUÇÃO BÁSICA (IFB)</option>
+        <option value="CLD">CURSO DE LIDERANÇA (CLD)</option>
+        <option value="CGE">GUERRA ELETRÔNICA (CGE)</option>
+    </select>
 
-<div id="questoes_container"></div>
+    <div id="questoes_container"></div>
 
-<button class="btn-enviar" onclick="enviarParaDiscord()">ENVIAR</button>
+    <button class="btn-enviar" onclick="enviarParaDiscord()">ENVIAR AO QG</button>
 </div>
 
 <div id="loja_patentes">
+    <div class="loja-container">
 
-<div class="loja-container">
+        <h2 style="color:var(--dourado); text-align:center;">🏛️ SHOP UNIFICADO - BGEex</h2>
 
-<h2 style="color:var(--dourado)">LOJA</h2>
+        <div id="lista_patentes">
+            <div class="item-patente"><span>DEVELOPERS</span><span class="preco">R$ 200,00</span><button class="btn-pagar" onclick="gerarPix('Developers','200.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[DK] REI DAS MALDIÇÕES</span><span class="preco">R$ 50,00</span><button class="btn-pagar" onclick="gerarPix('Rei','50.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[SY] SEIS OLHOS</span><span class="preco">R$ 40,00</span><button class="btn-pagar" onclick="gerarPix('Seis Olhos','40.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>HEAD ADMIN DO EB</span><span class="preco">R$ 30,00</span><button class="btn-pagar" onclick="gerarPix('Head Admin','30.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[STAFF] DO EB</span><span class="preco">R$ 25,00</span><button class="btn-pagar" onclick="gerarPix('Staff','25.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[SE] SENADOR DO EB</span><span class="preco">R$ 20,00</span><button class="btn-pagar" onclick="gerarPix('Senador','20.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[AHD] AJUDANTE DE HEADADMIN</span><span class="preco">R$ 15,00</span><button class="btn-pagar" onclick="gerarPix('Ajudante','15.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[GE] GERENTE DO EB</span><span class="preco">R$ 12,00</span><button class="btn-pagar" onclick="gerarPix('Gerente','12.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[SG] SUB-GERENTE EB</span><span class="preco">R$ 10,00</span><button class="btn-pagar" onclick="gerarPix('Sub','10.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>ENTREGADOR DE PATENTE</span><span class="preco">R$ 8,00</span><button class="btn-pagar" onclick="gerarPix('Entregador','8.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>[MDF] HELPER</span><span class="preco">R$ 5,00</span><button class="btn-pagar" onclick="gerarPix('Helper','5.00')">COMPRAR</button></div>
+            <div class="item-patente"><span>VIP DIAMANTE</span><span class="preco">R$ 3,00</span><button class="btn-pagar" onclick="gerarPix('VIP','3.00')">COMPRAR</button></div>
+        </div>
 
-<div id="lista_patentes">
+        <div id="tela_pix">
+            <h3 style="color:#0f0">PAGAMENTO PIX</h3>
+            <p id="patente_info"></p>
+            <img id="qr_pix" src="">
+            <div class="codigo-pix" id="pix_texto"></div>
+            <button class="btn-copiar" onclick="copiarPix()">📋 COPIAR PIX</button>
+            <button class="btn-enviar" onclick="voltarLista()" style="background:#444;">VOLTAR</button>
+        </div>
 
-<div class="item-patente"><span>DEVELOPERS</span><span class="preco">R$200</span><button class="btn-pagar" onclick="gerarPix('Developers','200')">COMPRAR</button></div>
-<div class="item-patente"><span>REI DAS MALDIÇÕES</span><span class="preco">R$50</span><button class="btn-pagar" onclick="gerarPix('Rei','50')">COMPRAR</button></div>
-<div class="item-patente"><span>SEIS OLHOS</span><span class="preco">R$40</span><button class="btn-pagar" onclick="gerarPix('Seis Olhos','40')">COMPRAR</button></div>
-<div class="item-patente"><span>HEAD ADMIN</span><span class="preco">R$30</span><button class="btn-pagar" onclick="gerarPix('Head','30')">COMPRAR</button></div>
-<div class="item-patente"><span>STAFF</span><span class="preco">R$25</span><button class="btn-pagar" onclick="gerarPix('Staff','25')">COMPRAR</button></div>
-<div class="item-patente"><span>SENADOR</span><span class="preco">R$20</span><button class="btn-pagar" onclick="gerarPix('Senador','20')">COMPRAR</button></div>
-<div class="item-patente"><span>AHD</span><span class="preco">R$15</span><button class="btn-pagar" onclick="gerarPix('AHD','15')">COMPRAR</button></div>
-<div class="item-patente"><span>GERENTE</span><span class="preco">R$12</span><button class="btn-pagar" onclick="gerarPix('Gerente','12')">COMPRAR</button></div>
-<div class="item-patente"><span>SUB GERENTE</span><span class="preco">R$10</span><button class="btn-pagar" onclick="gerarPix('Sub','10')">COMPRAR</button></div>
-<div class="item-patente"><span>ENTREGADOR</span><span class="preco">R$8</span><button class="btn-pagar" onclick="gerarPix('Entregador','8')">COMPRAR</button></div>
-<div class="item-patente"><span>HELPER</span><span class="preco">R$5</span><button class="btn-pagar" onclick="gerarPix('Helper','5')">COMPRAR</button></div>
-<div class="item-patente"><span>VIP</span><span class="preco">R$3</span><button class="btn-pagar" onclick="gerarPix('VIP','3')">COMPRAR</button></div>
-
-</div>
-
-<div id="tela_pix">
-
-<h3>PAGAMENTO PIX</h3>
-
-<p id="patente_info"></p>
-
-<div class="codigo-pix" id="pix_texto"></div>
-
-<img id="qr_pix">
-
-<button onclick="copiarPix()">COPIAR PIX</button>
-
-<!-- PicPay sem mudar layout -->
-<span id="picpay_user" style="display:none">@SEU_USUARIO</span>
-
-</div>
-
-<button onclick="fecharLoja()">FECHAR</button>
-
-</div>
-
+        <button onclick="fecharLoja()" style="width:100%; margin-top:15px; background:none; color:white; border:1px solid #555; padding:10px;">FECHAR</button>
+    </div>
 </div>
 
 <script>
 
-const banco={
-IFB:["Q1","Q2","Q3"],
-CLD:["Q1","Q2","Q3"],
-CGE:["Q1","Q2","Q3"]
-};
+const CHAVE_PIX = "DANILOBTU88@GMAIL.COM";
+const NOME = "DANILO";
+const CIDADE = "BOTUCATU";
+
+function abrirLoja(){document.getElementById('loja_patentes').style.display='block'}
+function fecharLoja(){document.getElementById('loja_patentes').style.display='none'}
+function voltarLista(){document.getElementById('tela_pix').style.display='none';document.getElementById('lista_patentes').style.display='block'}
 
 function carregarQuestoes(){
-const c=document.getElementById("selecao_curso").value;
-const div=document.getElementById("questoes_container");
-div.innerHTML="";
-if(!c)return;
+const curso=document.getElementById("selecao_curso").value;
+const box=document.getElementById("questoes_container");
+box.innerHTML="";
+if(!curso)return;
 
-banco[c].forEach((q,i)=>{
-div.innerHTML+=`
+const banco={
+IFB:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"],
+CLD:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"],
+CGE:["Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10"]
+};
+
+banco[curso].forEach((q,i)=>{
+box.innerHTML+=`
 <div class="questao">
 <p>${q}</p>
 <textarea id="res_${i}"></textarea>
@@ -204,27 +257,52 @@ div.innerHTML+=`
 });
 }
 
-function abrirLoja(){document.getElementById("loja_patentes").style.display="block"}
-function fecharLoja(){document.getElementById("loja_patentes").style.display="none"}
+function emv(id,val){return id+val.length.toString().padStart(2,'0')+val}
+
+function crc16(p){
+let poly=0x1021, r=0xFFFF;
+for(let i=0;i<p.length;i++){
+r^=(p.charCodeAt(i)<<8);
+for(let j=0;j<8;j++){
+r=(r&0x8000)?(r<<1)^poly:r<<1;
+r&=0xFFFF;
+}}
+return r.toString(16).toUpperCase().padStart(4,'0');
+}
 
 function gerarPix(produto,valor){
-document.getElementById("lista_patentes").style.display="none";
-document.getElementById("tela_pix").style.display="block";
 
-document.getElementById("patente_info").innerText=produto+" R$"+valor;
-document.getElementById("pix_texto").innerText="PIX_"+produto+"_"+valor;
+document.getElementById('lista_patentes').style.display='none';
+document.getElementById('tela_pix').style.display='block';
+
+document.getElementById('patente_info').innerText=produto+" | R$ "+valor;
+
+let payload=
+emv("00","01")+
+emv("01","11")+
+emv("26",emv("00","br.gov.bcb.pix")+emv("01",CHAVE_PIX))+
+emv("52","0000")+
+emv("53","986")+
+emv("54",valor)+
+emv("58","BR")+
+emv("59",NOME)+
+emv("60",CIDADE)+
+emv("62",emv("05",produto))+
+"6304";
+
+let crc=crc16(payload);
+let pix=payload+crc;
+
+document.getElementById('pix_texto').innerText=pix;
+document.getElementById('qr_pix').src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(pix);
 }
 
 function copiarPix(){
-navigator.clipboard.writeText(document.getElementById("pix_texto").innerText);
-alert("copiado");
-}
-
-function enviarParaDiscord(){
-alert("enviado");
+navigator.clipboard.writeText(document.getElementById('pix_texto').innerText);
+alert("PIX copiado");
 }
 
 </script>
 
 </body>
-</html>
+    </html>
